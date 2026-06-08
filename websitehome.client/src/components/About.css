@@ -1,7 +1,8 @@
 .about {
-    padding: 120px 8%;
-    background: #070707;
+    padding: 140px 8%;
+    background: linear-gradient( 180deg, #050505 0%, #080808 100% );
     position: relative;
+    overflow: hidden;
 }
 
 .about-container {
@@ -13,19 +14,30 @@
     align-items: center;
 }
 
+/* =========================
+   LEFT
+========================= */
+
 .about-tag {
+    display: inline-block;
+    padding: 10px 20px;
+    border-radius: 999px;
+    background: rgba(37,99,235,.12);
+    border: 1px solid rgba(96,165,250,.25);
     color: #60A5FA;
-    font-size: 14px;
-    font-weight: 700;
-    letter-spacing: 4px;
+    font-size: .85rem;
+    font-weight: 600;
+    letter-spacing: 2px;
+    margin-bottom: 24px;
 }
 
 .about-title {
-    font-size: clamp(2.8rem, 5vw, 4.5rem);
+    font-size: clamp(2.8rem,5vw,4.8rem);
     line-height: 1.1;
     font-weight: 800;
-    margin: 20px 0 30px;
     color: white;
+    margin-bottom: 30px;
+    letter-spacing: -2px;
 }
 
     .about-title span {
@@ -33,84 +45,116 @@
     }
 
 .about-text {
-    color: rgba(255,255,255,.75);
-    font-size: 1.1rem;
+    color: rgba(255,255,255,.72);
+    font-size: 1.08rem;
     line-height: 1.9;
     margin-bottom: 20px;
+    max-width: 700px;
 }
+
+/* =========================
+   BUTTONS
+========================= */
 
 .about-buttons {
     display: flex;
-    gap: 20px;
+    gap: 18px;
     margin-top: 40px;
 }
 
 .about-btn-primary {
     border: none;
-    padding: 16px 30px;
-    border-radius: 50px;
+    padding: 16px 32px;
+    border-radius: 999px;
     background: #2563EB;
     color: white;
     font-weight: 600;
     cursor: pointer;
-    transition: .3s;
+    transition: .35s ease;
 }
 
     .about-btn-primary:hover {
-        transform: translateY(-3px);
+        transform: translateY(-4px);
         background: #1D4ED8;
     }
 
 .about-btn-secondary {
-    border: 1px solid rgba(255,255,255,.15);
-    padding: 16px 30px;
-    border-radius: 50px;
-    background: rgba(255,255,255,.05);
+    border: 1px solid rgba(255,255,255,.12);
+    padding: 16px 32px;
+    border-radius: 999px;
+    background: rgba(255,255,255,.04);
     color: white;
-    backdrop-filter: blur(10px);
+    backdrop-filter: blur(15px);
     cursor: pointer;
-    transition: .3s;
+    transition: .35s ease;
 }
 
     .about-btn-secondary:hover {
-        background: rgba(255,255,255,.1);
+        background: rgba(255,255,255,.08);
+        transform: translateY(-4px);
     }
+
+/* =========================
+   RIGHT SIDE CARDS
+========================= */
 
 .about-right {
     display: grid;
     grid-template-columns: repeat(2,1fr);
-    gap: 25px;
+    gap: 24px;
 }
 
 .about-card {
-    padding: 35px;
+    position: relative;
+    padding: 40px 30px;
     border-radius: 24px;
-    background: rgba(255,255,255,.04);
+    background: linear-gradient( 180deg, rgba(255,255,255,.05), rgba(255,255,255,.02) );
     border: 1px solid rgba(255,255,255,.08);
-    backdrop-filter: blur(15px);
-    transition: .3s;
+    backdrop-filter: blur(20px);
+    transition: .4s ease;
+    overflow: hidden;
 }
 
-    .about-card:hover {
-        transform: translateY(-8px);
-        border-color: #2563EB;
+    .about-card::before {
+        content: "";
+        position: absolute;
+        inset: 0;
+        background: radial-gradient( circle at top left, rgba(37,99,235,.22), transparent 60% );
+        opacity: 0;
+        transition: .4s ease;
     }
 
+    .about-card:hover {
+        transform: translateY(-10px);
+        border-color: rgba(96,165,250,.35);
+        box-shadow: 0 20px 40px rgba(0,0,0,.35);
+    }
+
+        .about-card:hover::before {
+            opacity: 1;
+        }
+
     .about-card h3 {
-        font-size: 2.5rem;
+        font-size: 3rem;
         color: #60A5FA;
         margin-bottom: 10px;
+        font-weight: 800;
     }
 
     .about-card p {
-        color: rgba(255,255,255,.75);
+        color: rgba(255,255,255,.72);
+        font-size: 1rem;
     }
 
-/* ======================
+/* =========================
    TABLET
-====================== */
+========================= */
 
 @media(max-width:992px) {
+
+    .about {
+        padding: 110px 6%;
+    }
 
     .about-container {
         grid-template-columns: 1fr;
@@ -120,20 +164,16 @@
     .about-right {
         grid-template-columns: repeat(2,1fr);
     }
-
-    .about-title {
-        font-size: 3rem;
-    }
 }
 
-/* ======================
+/* =========================
    MOBILE
-====================== */
+========================= */
 
 @media(max-width:768px) {
 
     .about {
-        padding: 80px 24px;
+        padding: 90px 24px;
     }
 
     .about-title {
@@ -159,5 +199,16 @@
 
     .about-card {
         text-align: center;
+    }
+
+        .about-card h3 {
+            font-size: 2.5rem;
+        }
+}
+
+@media(max-width:480px) {
+
+    .about-title {
+        font-size: 2rem;
     }
 }
