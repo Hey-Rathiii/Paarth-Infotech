@@ -1,0 +1,84 @@
+.tech-stack {
+    padding: 120px 0;
+    background: #050505;
+    overflow: hidden;
+}
+
+.tech-header {
+    text-align: center;
+    margin-bottom: 60px;
+}
+
+.tech-tag {
+    color: #60A5FA;
+    font-size: 14px;
+    letter-spacing: 4px;
+    font-weight: 700;
+}
+
+.tech-header h2 {
+    color: white;
+    margin-top: 20px;
+    font-size: clamp(2.5rem,5vw,4rem);
+    font-weight: 800;
+}
+
+.tech-header span {
+    color: #60A5FA;
+}
+
+.marquee {
+    width: 100%;
+    overflow: hidden;
+    margin: 20px 0;
+}
+
+.marquee-track {
+    display: flex;
+    width: max-content;
+    animation: marquee 25s linear infinite;
+}
+
+.reverse .marquee-track {
+    animation-direction: reverse;
+}
+
+.marquee-track span {
+    padding: 18px 30px;
+    margin-right: 20px;
+    border-radius: 50px;
+    background: rgba(255,255,255,.05);
+    border: 1px solid rgba(255,255,255,.08);
+    color: white;
+    font-weight: 600;
+    backdrop-filter: blur(15px);
+    transition: .3s;
+}
+
+    .marquee-track span:hover {
+        background: rgba(37,99,235,.2);
+        border-color: rgba(37,99,235,.4);
+    }
+
+@keyframes marquee {
+
+    from {
+        transform: translateX(0);
+    }
+
+    to {
+        transform: translateX(-50%);
+    }
+}
+
+@media(max-width:768px) {
+
+    .tech-stack {
+        padding: 80px 0;
+    }
+
+    .marquee-track span {
+        padding: 14px 24px;
+        font-size: .9rem;
+    }
+}

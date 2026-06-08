@@ -1,0 +1,163 @@
+.about {
+    padding: 120px 8%;
+    background: #070707;
+    position: relative;
+}
+
+.about-container {
+    max-width: 1400px;
+    margin: auto;
+    display: grid;
+    grid-template-columns: 1.2fr 1fr;
+    gap: 80px;
+    align-items: center;
+}
+
+.about-tag {
+    color: #60A5FA;
+    font-size: 14px;
+    font-weight: 700;
+    letter-spacing: 4px;
+}
+
+.about-title {
+    font-size: clamp(2.8rem, 5vw, 4.5rem);
+    line-height: 1.1;
+    font-weight: 800;
+    margin: 20px 0 30px;
+    color: white;
+}
+
+    .about-title span {
+        color: #60A5FA;
+    }
+
+.about-text {
+    color: rgba(255,255,255,.75);
+    font-size: 1.1rem;
+    line-height: 1.9;
+    margin-bottom: 20px;
+}
+
+.about-buttons {
+    display: flex;
+    gap: 20px;
+    margin-top: 40px;
+}
+
+.about-btn-primary {
+    border: none;
+    padding: 16px 30px;
+    border-radius: 50px;
+    background: #2563EB;
+    color: white;
+    font-weight: 600;
+    cursor: pointer;
+    transition: .3s;
+}
+
+    .about-btn-primary:hover {
+        transform: translateY(-3px);
+        background: #1D4ED8;
+    }
+
+.about-btn-secondary {
+    border: 1px solid rgba(255,255,255,.15);
+    padding: 16px 30px;
+    border-radius: 50px;
+    background: rgba(255,255,255,.05);
+    color: white;
+    backdrop-filter: blur(10px);
+    cursor: pointer;
+    transition: .3s;
+}
+
+    .about-btn-secondary:hover {
+        background: rgba(255,255,255,.1);
+    }
+
+.about-right {
+    display: grid;
+    grid-template-columns: repeat(2,1fr);
+    gap: 25px;
+}
+
+.about-card {
+    padding: 35px;
+    border-radius: 24px;
+    background: rgba(255,255,255,.04);
+    border: 1px solid rgba(255,255,255,.08);
+    backdrop-filter: blur(15px);
+    transition: .3s;
+}
+
+    .about-card:hover {
+        transform: translateY(-8px);
+        border-color: #2563EB;
+    }
+
+    .about-card h3 {
+        font-size: 2.5rem;
+        color: #60A5FA;
+        margin-bottom: 10px;
+    }
+
+    .about-card p {
+        color: rgba(255,255,255,.75);
+    }
+
+/* ======================
+   TABLET
+====================== */
+
+@media(max-width:992px) {
+
+    .about-container {
+        grid-template-columns: 1fr;
+        gap: 60px;
+    }
+
+    .about-right {
+        grid-template-columns: repeat(2,1fr);
+    }
+
+    .about-title {
+        font-size: 3rem;
+    }
+}
+
+/* ======================
+   MOBILE
+====================== */
+
+@media(max-width:768px) {
+
+    .about {
+        padding: 80px 24px;
+    }
+
+    .about-title {
+        font-size: 2.3rem;
+    }
+
+    .about-text {
+        font-size: 1rem;
+    }
+
+    .about-buttons {
+        flex-direction: column;
+    }
+
+    .about-btn-primary,
+    .about-btn-secondary {
+        width: 100%;
+    }
+
+    .about-right {
+        grid-template-columns: 1fr;
+    }
+
+    .about-card {
+        text-align: center;
+    }
+}
