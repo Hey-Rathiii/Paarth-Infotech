@@ -7,6 +7,12 @@ import Hero from './components/Hero';
 import About from './components/About';
 import Services from './components/Services';
 import TechStack1 from './components/TechStack1';
+import Programs from "./components/Programs";
+import Testimonials from "./components/Testimonials";
+import FAQ from "./components/FAQ";
+import Contact from "./components/Contact";
+import Map from "./components/Map";
+import Footer from "./components/Footer";
 
 function App() {
 
@@ -38,6 +44,12 @@ function App() {
             <About />
             <Services />
             <TechStack1 />
+            <Programs />
+            <Testimonials />
+            <FAQ />
+            <Contact />
+            <Map />
+            <Footer />
         </>
     );
 }

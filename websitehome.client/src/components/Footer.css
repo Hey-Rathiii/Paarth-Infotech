@@ -1,0 +1,239 @@
+.footer {
+    background: #030303;
+    padding: 100px 8% 40px;
+    border-top: 1px solid rgba(255,255,255,.08);
+}
+
+.footer-top {
+    display: grid;
+    grid-template-columns: minmax(280px,2fr) 1fr 1fr 1fr;
+    gap: 60px;
+}
+
+.footer-brand h2 {
+    font-size: 2rem;
+    margin-bottom: 20px;
+}
+
+.footer-brand p {
+    color: rgba(255,255,255,.7);
+    line-height: 1.8;
+    max-width: 400px;
+}
+
+.footer-socials {
+    display: flex;
+    gap: 15px;
+    margin-top: 25px;
+}
+
+    .footer-socials a {
+        width: 45px;
+        height: 45px;
+        border-radius: 50%;
+        background: rgba(255,255,255,.05);
+        border: 1px solid rgba(255,255,255,.08);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: white;
+        transition: .3s;
+    }
+
+        .footer-socials a:hover {
+            background: #2563EB;
+            transform: translateY(-4px);
+        }
+
+.footer-links h4 {
+    margin-bottom: 20px;
+    color: white;
+}
+
+.footer-links a,
+.footer-links p {
+    display: block;
+    margin-bottom: 12px;
+    text-decoration: none;
+    color: rgba(255,255,255,.7);
+    transition: .3s;
+}
+
+    .footer-links a:hover {
+        color: #60A5FA;
+    }
+
+.newsletter {
+    margin-top: 80px;
+    padding-top: 50px;
+    border-top: 1px solid rgba(255,255,255,.08);
+    text-align: center;
+}
+
+    .newsletter h3 {
+        margin-bottom: 25px;
+        font-size: 1.6rem;
+    }
+
+    .newsletter form {
+        display: flex;
+        justify-content: center;
+        gap: 12px;
+        flex-wrap: wrap;
+    }
+
+    .newsletter input {
+        width: 350px;
+        padding: 16px 20px;
+        border-radius: 12px;
+        border: 1px solid rgba(255,255,255,.1);
+        background: rgba(255,255,255,.03);
+        color: white;
+        outline: none;
+    }
+
+    .newsletter button {
+        padding: 16px 28px;
+        border: none;
+        border-radius: 12px;
+        background: #2563EB;
+        color: white;
+        font-weight: 600;
+        cursor: pointer;
+    }
+
+        .newsletter button:hover {
+            background: #1D4ED8;
+        }
+
+.footer-bottom {
+    margin-top: 60px;
+    text-align: center;
+    color: rgba(255,255,255,.55);
+    border-top: 1px solid rgba(255,255,255,.08);
+    padding-top: 25px;
+}
+
+@media(max-width:992px) {
+
+    .footer-top {
+        grid-template-columns: 1fr;
+        gap: 40px;
+    }
+
+    .newsletter input {
+        width: 100%;
+    }
+}
+/* =========================
+   TABLET
+========================= */
+
+@media (max-width: 992px) {
+
+    .footer {
+        padding: 80px 24px 30px;
+    }
+
+    .footer-top {
+        grid-template-columns: 1fr 1fr;
+        gap: 40px;
+    }
+
+    .newsletter {
+        margin-top: 60px;
+    }
+}
+
+/* =========================
+   MOBILE
+========================= */
+
+@media (max-width: 768px) {
+
+    .footer {
+        padding: 70px 24px 25px;
+    }
+
+    .footer-top {
+        grid-template-columns: 1fr;
+        gap: 35px;
+        text-align: center;
+    }
+
+    .footer-brand p {
+        max-width: 100%;
+    }
+
+    .footer-socials {
+        justify-content: center;
+    }
+
+    .footer-links {
+        text-align: center;
+    }
+
+        .footer-links h4 {
+            margin-bottom: 15px;
+        }
+
+    .newsletter {
+        margin-top: 50px;
+        padding-top: 40px;
+    }
+
+        .newsletter h3 {
+            font-size: 1.4rem;
+        }
+
+        .newsletter form {
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .newsletter input {
+            width: 100%;
+            max-width: 100%;
+        }
+
+        .newsletter button {
+            width: 100%;
+            max-width: 100%;
+        }
+
+    .footer-bottom {
+        margin-top: 40px;
+        font-size: .9rem;
+        line-height: 1.6;
+    }
+}
+
+/* =========================
+   SMALL MOBILE
+========================= */
+
+@media (max-width: 480px) {
+
+    .footer-brand h2 {
+        font-size: 1.8rem;
+    }
+
+    .footer-brand p {
+        font-size: .95rem;
+        line-height: 1.7;
+    }
+
+    .newsletter h3 {
+        font-size: 1.25rem;
+    }
+
+    .newsletter input,
+    .newsletter button {
+        padding: 14px 18px;
+    }
+
+    .footer-socials a {
+        width: 42px;
+        height: 42px;
+    }
+}

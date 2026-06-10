@@ -1,0 +1,124 @@
+.contact-section {
+    padding: 140px 8%;
+    background: #050505;
+}
+
+.contact-header {
+    text-align: center;
+    margin-bottom: 70px;
+}
+
+.contact-tag {
+    display: inline-block;
+    padding: 12px 28px;
+    border-radius: 999px;
+    background: rgba(37,99,235,.12);
+    border: 1px solid rgba(37,99,235,.25);
+    color: #60A5FA;
+    margin-bottom: 24px;
+}
+
+.contact-header h2 {
+    font-size: clamp(2.5rem,5vw,4.5rem);
+    line-height: 1.1;
+    margin-bottom: 20px;
+}
+
+    .contact-header h2 span {
+        color: #60A5FA;
+    }
+
+.contact-header p {
+    color: rgba(255,255,255,.75);
+}
+
+.contact-container {
+    display: grid;
+    grid-template-columns: 1fr 1.3fr;
+    gap: 40px;
+}
+
+.contact-info {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.info-card {
+    display: flex;
+    align-items: center;
+    gap: 18px;
+    padding: 25px;
+    border-radius: 24px;
+    background: rgba(255,255,255,.03);
+    border: 1px solid rgba(255,255,255,.08);
+}
+
+    .info-card svg {
+        color: #60A5FA;
+        font-size: 1.5rem;
+    }
+
+    .info-card h4 {
+        margin-bottom: 6px;
+    }
+
+    .info-card p {
+        color: rgba(255,255,255,.7);
+    }
+
+.contact-form {
+    display: flex;
+    flex-direction: column;
+    gap: 18px;
+}
+
+    .contact-form input,
+    .contact-form select,
+    .contact-form textarea {
+        width: 100%;
+        padding: 16px 20px;
+        border-radius: 16px;
+        border: 1px solid rgba(255,255,255,.08);
+        background: rgba(255,255,255,.03);
+        color: white;
+        outline: none;
+    }
+
+    .contact-form textarea {
+        resize: none;
+    }
+
+    .contact-form button {
+        border: none;
+        padding: 18px;
+        border-radius: 16px;
+        background: #2563EB;
+        color: white;
+        font-weight: 600;
+        cursor: pointer;
+        transition: .3s;
+    }
+
+        .contact-form button:hover {
+            background: #1D4ED8;
+            transform: translateY(-3px);
+        }
+
+@media(max-width:992px) {
+
+    .contact-container {
+        grid-template-columns: 1fr;
+    }
+}
+
+@media(max-width:768px) {
+
+    .contact-section {
+        padding: 100px 24px;
+    }
+
+    .contact-header h2 {
+        font-size: 2.4rem;
+    }
+}

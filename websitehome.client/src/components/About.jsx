@@ -48,17 +48,17 @@ function About() {
                 <div className="about-right">
 
                     <div className="about-card">
-                        <h3>500+</h3>
+                        <h3>10+</h3>
                         <p>Students Trained</p>
                     </div>
 
                     <div className="about-card">
-                        <h3>50+</h3>
+                        <h3>10+</h3>
                         <p>Industry Projects</p>
                     </div>
 
                     <div className="about-card">
-                        <h3>95%</h3>
+                        <h3>92%</h3>
                         <p>Placement Support</p>
                     </div>
 

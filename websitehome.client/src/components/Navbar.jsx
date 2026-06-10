@@ -106,15 +106,15 @@ function Navbar() {
                 {mobileOpen ? <FaTimes /> : <FaBars />}
             </button>
 
-            <div className={`mobile-menu ${mobileOpen ? "open" : ""}`}>
-
-                <a href="#home">Home</a>
-                <a href="#about">About</a>
-                <a href="#programs">Programs</a>
-                <a href="#services">Services</a>
-                <a href="#contact">Contact</a>
-
-            </div>
+            {mobileOpen && (
+                <div className="mobile-menu">
+                    <a href="#home">Home</a>
+                    <a href="#about">About</a>
+                    <a href="#programs">Programs</a>
+                    <a href="#services">Services</a>
+                    <a href="#contact">Contact</a>
+                </div>
+            )}
 
         </header>
     );

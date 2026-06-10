@@ -17,7 +17,7 @@
 }
 
 .navbar-scrolled {
-    background: rgba(5, 5, 5, .75);
+    background: rgba(5,5,5,.75);
     backdrop-filter: blur(20px);
     border-bottom: 1px solid rgba(255,255,255,.08);
 }
@@ -107,7 +107,7 @@
     }
 
 /* =========================
-   CTA BUTTON
+   CTA
 ========================= */
 
 .nav-cta {
@@ -137,6 +137,7 @@
     color: white;
     font-size: 1.6rem;
     cursor: pointer;
+    z-index: 10001;
 }
 
 /* =========================
@@ -148,27 +149,37 @@
     top: 90px;
     left: 0;
     width: 100%;
+    height: calc(100vh - 90px);
     background: rgba(5,5,5,.98);
     backdrop-filter: blur(20px);
     display: flex;
     flex-direction: column;
-    gap: 24px;
-    padding: 30px;
-    transform: translateY(-120%);
-    transition: transform .35s ease;
-    z-index: 999;
+    align-items: center;
+    justify-content: flex-start;
+    gap: 28px;
+    padding-top: 50px;
+    z-index: 9999;
 }
-
-    .mobile-menu.open {
-        transform: translateY(0);
-    }
 
     .mobile-menu a {
         color: white;
         text-decoration: none;
-        font-size: 1rem;
-        font-weight: 500;
+        font-size: 1.15rem;
+        font-weight: 600;
+        transition: .3s ease;
     }
+
+        .mobile-menu a:hover {
+            color: #60A5FA;
+        }
+
+/* Hide mobile menu on desktop */
+
+@media (min-width: 993px) {
+    .mobile-menu {
+        display: none !important;
+    }
+}
 
 /* =========================
    TABLET
@@ -206,5 +217,20 @@
 
     .logo {
         font-size: 1.6rem;
+    }
+}
+
+/* =========================
+   SMALL MOBILE
+========================= */
+
+@media (max-width: 480px) {
+
+    .logo {
+        font-size: 1.4rem;
+    }
+
+    .mobile-menu a {
+        font-size: 1rem;
     }
 }

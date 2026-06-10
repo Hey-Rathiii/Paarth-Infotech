@@ -1,4 +1,4 @@
-﻿import React, { useEffect, useRef } from "react";
+﻿import React, { useLayoutEffect, useRef } from "react";
 import gsap from "gsap";
 import "./Hero.css";
 
@@ -6,51 +6,105 @@ function Hero() {
 
     const videoRef = useRef(null);
 
-    useEffect(() => {
+    useLayoutEffect(() => {
 
         const tl = gsap.timeline();
 
-        tl.from(".hero-title", {
-            y: 120,
-            opacity: 0,
-            duration: 1.2,
-            ease: "power4.out"
-        })
+        tl.fromTo(
+            ".hero-title",
+            {
+                y: 120,
+                opacity: 0
+            },
+            {
+                y: 0,
+                opacity: 1,
+                duration: 1.4,
+                ease: "power4.out"
+            }
+        )
 
-            .from(".hero-description", {
-                y: 40,
-                opacity: 0,
-                duration: 0.8
-            }, "-=0.7")
+            .fromTo(
+                ".hero-description",
+                {
+                    y: 40,
+                    opacity: 0
+                },
+                {
+                    y: 0,
+                    opacity: 1,
+                    duration: 1,
+                    ease: "power3.out"
+                },
+                "-=0.8"
+            )
 
-            .from(".scroll-indicator", {
-                opacity: 0,
-                y: 20,
-                duration: 0.8
-            }, "-=0.4");
+            .fromTo(
+                ".scroll-indicator",
+                {
+                    opacity: 0,
+                    y: 20
+                },
+                {
+                    opacity: 1,
+                    y: 0,
+                    duration: 0.8
+                },
+                "-=0.5"
+            );
 
         const moveBackground = (e) => {
 
             if (window.innerWidth < 768) return;
 
             const x =
-                (e.clientX / window.innerWidth - 0.5) * 20;
+                (e.clientX / window.innerWidth - 0.5) * 15;
 
             const y =
-                (e.clientY / window.innerHeight - 0.5) * 20;
+                (e.clientY / window.innerHeight - 0.5) * 15;
 
             gsap.to(videoRef.current, {
                 x,
                 y,
+                duration: 2,
+                ease: "power3.out",
+                overwrite: true
+            });
+        };
+
+        const moveContent = (e) => {
+
+            if (window.innerWidth < 768) return;
+
+            const x =
+                (e.clientX / window.innerWidth - 0.5) * -8;
+
+            const y =
+                (e.clientY / window.innerHeight - 0.5) * -8;
+
+            gsap.to(".hero-content", {
+                x,
+                y,
                 duration: 1.5,
-                ease: "power2.out"
+                ease: "power3.out",
+                overwrite: true
             });
         };
 
         window.addEventListener("mousemove", moveBackground);
+        window.addEventListener("mousemove", moveContent);
 
         return () => {
-            window.removeEventListener("mousemove", moveBackground);
+
+            window.removeEventListener(
+                "mousemove",
+                moveBackground
+            );
+
+            window.removeEventListener(
+                "mousemove",
+                moveContent
+            );
         };
 
     }, []);
@@ -92,6 +146,7 @@ function Hero() {
 
                     Industry
                     <br />
+
                     Professionals
                 </h1>
 
