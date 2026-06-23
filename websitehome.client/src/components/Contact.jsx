@@ -1,128 +1,78 @@
 import "./Contact.css";
-import {
-    FaPhoneAlt,
-    FaEnvelope,
-    FaMapMarkerAlt,
-    FaClock
-} from "react-icons/fa";
 
 function Contact() {
     return (
         <section className="contact-section" id="contact">
 
-            <div className="contact-header">
+            <div className="contact-wrapper">
 
-                <span className="contact-tag">
-                    Contact Us
-                </span>
+                {/* FORM */}
 
-                <h2>
-                    Let's Build Your
-                    <span> Future Together</span>
-                </h2>
+                <div className="contact-form-card">
 
-                <p>
-                    Have questions about our programs or services?
-                    We'd love to hear from you.
-                </p>
+                    <span className="contact-tag">
+                        Contact Us
+                    </span>
 
-            </div>
+                    <h2>
+                        Let's Build Your
+                        <span> Future Together</span>
+                    </h2>
 
-            <div className="contact-container">
+                    <p>
+                        Have questions about our programs?
+                        Send us a message.
+                    </p>
 
-                {/* LEFT */}
+                    <form className="contact-form">
 
-                <div className="contact-info">
+                        <input
+                            type="text"
+                            placeholder="Your Name"
+                        />
 
-                    <div className="info-card">
-                        <FaPhoneAlt />
-                        <div>
-                            <h4>Phone</h4>
-                            <p>+91 XXXXX XXXXX</p>
-                        </div>
-                    </div>
+                        <input
+                            type="email"
+                            placeholder="Your Email"
+                        />
 
-                    <div className="info-card">
-                        <FaEnvelope />
-                        <div>
-                            <h4>Email</h4>
-                            <p>contact@phsolutions.in</p>
-                        </div>
-                    </div>
+                        <input
+                            type="tel"
+                            placeholder="Phone Number"
+                        />
 
-                    <div className="info-card">
-                        <FaMapMarkerAlt />
-                        <div>
-                            <h4>Location</h4>
-                            <p>Ghaziabad, Uttar Pradesh</p>
-                        </div>
-                    </div>
+                        <select>
+                            <option>Select Technology</option>
+                            <option>ASP.NET Core</option>
+                            <option>Full Stack Development</option>
+                            <option>Dynamics 365</option>
+                            <option>Artificial Intelligence</option>
+                        </select>
 
-                    <div className="info-card">
-                        <FaClock />
-                        <div>
-                            <h4>Working Hours</h4>
-                            <p>Mon - Sat | 9 AM - 7 PM</p>
-                        </div>
-                    </div>
+                        <textarea
+                            rows="5"
+                            placeholder="Your Message"
+                        />
+
+                        <button type="submit">
+                            Book Consultation
+                        </button>
+
+                    </form>
 
                 </div>
 
-                {/* RIGHT */}
+                {/* MAP */}
 
-                <form className="contact-form">
+                <div className="contact-map-card">
 
-                    <input
-                        type="text"
-                        placeholder="Your Name"
+                    <iframe
+                        title="PH Solutions Location"
+                        src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d901.9433426499587!2d77.756166758771!3d29.001431481297907!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x390c7b3bf839de05%3A0xe1c4eb75918c33e!2sPaarth%20Institute%20of%20Education%20(PIE)!5e0!3m2!1sen!2sin!4v1781093904365!5m2!1sen!2sin"
+                        loading="lazy"
                     />
 
-                    <input
-                        type="email"
-                        placeholder="Your Email"
-                    />
-
-                    <input
-                        type="tel"
-                        placeholder="Phone Number"
-                    />
-
-                    <select>
-                        <option>
-                            Select Technology
-                        </option>
-
-                        <option>
-                            ASP.NET Core
-                        </option>
-
-                        <option>
-                            Full Stack Development
-                        </option>
-
-                        <option>
-                            Dynamics 365
-                        </option>
-
-                        <option>
-                            Azure Cloud
-                        </option>
-
-                        <option>
-                            Artificial Intelligence
-                        </option>
-                    </select>
-
-                    <textarea
-                        rows="5"
-                        placeholder="Tell us about your goals..."
-                    ></textarea>
-
-                    <button type="submit">
-                        Book Free Consultation
-                    </button>
-
-                </form>
+                </div>
 
             </div>
 

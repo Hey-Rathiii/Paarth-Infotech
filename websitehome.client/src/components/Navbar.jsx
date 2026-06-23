@@ -27,7 +27,7 @@ function Navbar() {
         >
 
             <div className="logo">
-                PH Solutions
+                Paarth Infotech
             </div>
 
             <nav className="desktop-nav">

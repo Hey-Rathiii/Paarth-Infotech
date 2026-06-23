@@ -1,17 +1,52 @@
 .about {
     padding: 140px 8%;
-    background: linear-gradient( 180deg, #050505 0%, #080808 100% );
+    background: linear-gradient(
+        180deg,
+        #050505 0%,
+        #080808 100%
+    );
+
     position: relative;
     overflow: hidden;
 }
 
+.about::before {
+    content: "";
+
+    position: absolute;
+
+    width: 700px;
+    height: 700px;
+
+    top: -250px;
+    right: -200px;
+
+    background:
+        radial-gradient(
+            circle,
+            rgba(37,99,235,.18),
+            transparent 70%
+        );
+
+    filter: blur(100px);
+
+    pointer-events: none;
+}
+
 .about-container {
     max-width: 1400px;
+
     margin: auto;
+
     display: grid;
     grid-template-columns: 1.2fr 1fr;
+
     gap: 80px;
+
     align-items: center;
+
+    position: relative;
+    z-index: 2;
 }
 
 /* =========================
@@ -20,35 +55,75 @@
 
 .about-tag {
     display: inline-block;
+
     padding: 10px 20px;
+
     border-radius: 999px;
+
     background: rgba(37,99,235,.12);
+
     border: 1px solid rgba(96,165,250,.25);
+
     color: #60A5FA;
+
     font-size: .85rem;
+
     font-weight: 600;
+
     letter-spacing: 2px;
+
     margin-bottom: 24px;
 }
 
 .about-title {
     font-size: clamp(2.8rem,5vw,4.8rem);
+
     line-height: 1.1;
+
     font-weight: 800;
+
     color: white;
+
     margin-bottom: 30px;
+
     letter-spacing: -2px;
+
+    position: relative;
 }
 
-    .about-title span {
-        color: #60A5FA;
-    }
+.about-title span {
+    color: #60A5FA;
+}
+
+.about-title::after {
+    content: "";
+
+    display: block;
+
+    width: 120px;
+    height: 4px;
+
+    margin-top: 20px;
+
+    border-radius: 999px;
+
+    background:
+        linear-gradient(
+            90deg,
+            #2563EB,
+            #60A5FA
+        );
+}
 
 .about-text {
     color: rgba(255,255,255,.72);
+
     font-size: 1.08rem;
+
     line-height: 1.9;
+
     margin-bottom: 20px;
+
     max-width: 700px;
 }
 
@@ -58,41 +133,67 @@
 
 .about-buttons {
     display: flex;
+
     gap: 18px;
+
     margin-top: 40px;
+
+    flex-wrap: wrap;
 }
 
 .about-btn-primary {
     border: none;
+
     padding: 16px 32px;
+
     border-radius: 999px;
+
     background: #2563EB;
+
     color: white;
+
     font-weight: 600;
+
     cursor: pointer;
-    transition: .35s ease;
+
+    transition: all .35s ease;
+
+    box-shadow:
+        0 10px 25px rgba(37,99,235,.25);
 }
 
-    .about-btn-primary:hover {
-        transform: translateY(-4px);
-        background: #1D4ED8;
-    }
+.about-btn-primary:hover {
+    transform: translateY(-5px);
+
+    background: #1D4ED8;
+
+    box-shadow:
+        0 20px 35px rgba(37,99,235,.35);
+}
 
 .about-btn-secondary {
     border: 1px solid rgba(255,255,255,.12);
+
     padding: 16px 32px;
+
     border-radius: 999px;
+
     background: rgba(255,255,255,.04);
+
     color: white;
+
     backdrop-filter: blur(15px);
+
     cursor: pointer;
-    transition: .35s ease;
+
+    transition: all .35s ease;
 }
 
-    .about-btn-secondary:hover {
-        background: rgba(255,255,255,.08);
-        transform: translateY(-4px);
-    }
+.about-btn-secondary:hover {
+    background: rgba(255,255,255,.08);
+
+    transform: translateY(-5px);
+}
 
 /* =========================
    RIGHT SIDE CARDS
@@ -100,57 +201,99 @@
 
 .about-right {
     display: grid;
+
     grid-template-columns: repeat(2,1fr);
+
     gap: 24px;
+
+    perspective: 1200px;
 }
 
 .about-card {
     position: relative;
+
     padding: 40px 30px;
+
     border-radius: 24px;
-    background: linear-gradient( 180deg, rgba(255,255,255,.05), rgba(255,255,255,.02) );
+
+    background:
+        linear-gradient(
+            180deg,
+            rgba(255,255,255,.06),
+            rgba(255,255,255,.02)
+        );
+
     border: 1px solid rgba(255,255,255,.08);
+
     backdrop-filter: blur(20px);
-    transition: .4s ease;
+
+    transition:
+        transform .4s ease,
+        border-color .4s ease,
+        box-shadow .4s ease;
+
     overflow: hidden;
+
+    transform-style: preserve-3d;
 }
 
-    .about-card::before {
-        content: "";
-        position: absolute;
-        inset: 0;
-        background: radial-gradient( circle at top left, rgba(37,99,235,.22), transparent 60% );
-        opacity: 0;
-        transition: .4s ease;
-    }
+.about-card::before {
+    content: "";
 
-    .about-card:hover {
-        transform: translateY(-10px);
-        border-color: rgba(96,165,250,.35);
-        box-shadow: 0 20px 40px rgba(0,0,0,.35);
-    }
+    position: absolute;
 
-        .about-card:hover::before {
-            opacity: 1;
-        }
+    inset: 0;
 
-    .about-card h3 {
-        font-size: 3rem;
-        color: #60A5FA;
-        margin-bottom: 10px;
-        font-weight: 800;
-    }
+    background:
+        radial-gradient(
+            circle at top left,
+            rgba(37,99,235,.22),
+            transparent 60%
+        );
 
-    .about-card p {
-        color: rgba(255,255,255,.72);
-        font-size: 1rem;
-    }
+    opacity: 0;
+
+    transition: .4s ease;
+}
+
+.about-card:hover {
+    transform:
+        translateY(-12px)
+        rotateX(4deg)
+        rotateY(-4deg);
+
+    border-color:
+        rgba(96,165,250,.35);
+
+    box-shadow:
+        0 30px 60px rgba(0,0,0,.4);
+}
+
+.about-card:hover::before {
+    opacity: 1;
+}
+
+.about-card h3 {
+    font-size: 3rem;
+
+    color: #60A5FA;
+
+    margin-bottom: 10px;
+
+    font-weight: 800;
+}
+
+.about-card p {
+    color: rgba(255,255,255,.72);
+
+    font-size: 1rem;
+}
 
 /* =========================
    TABLET
 ========================= */
 
-@media(max-width:992px) {
+@media (max-width: 992px) {
 
     .about {
         padding: 110px 6%;
@@ -170,7 +313,7 @@
    MOBILE
 ========================= */
 
-@media(max-width:768px) {
+@media (max-width: 768px) {
 
     .about {
         padding: 90px 24px;
@@ -183,6 +326,7 @@
     .about-text {
         font-size: 1rem;
     }
+
     .about-buttons {
         flex-direction: column;
     }
@@ -198,14 +342,19 @@
 
     .about-card {
         text-align: center;
+        transform: none !important;
     }
 
-        .about-card h3 {
-            font-size: 2.5rem;
-        }
+    .about-card h3 {
+        font-size: 2.5rem;
+    }
 }
 
-@media(max-width:480px) {
+/* =========================
+   SMALL MOBILE
+========================= */
+
+@media (max-width: 480px) {
 
     .about-title {
         font-size: 2rem;

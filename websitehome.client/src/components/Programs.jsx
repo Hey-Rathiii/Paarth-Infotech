@@ -1,7 +1,21 @@
-﻿import "./Programs.css";
-import { FaCode, FaLaptopCode, FaCloud, FaRobot } from "react-icons/fa";
+﻿import { useLayoutEffect, useRef } from "react";
+import gsap from "gsap";
+import { ScrollTrigger } from "gsap/ScrollTrigger";
+
+import "./Programs.css";
+import {
+    FaCode,
+    FaLaptopCode,
+    FaCloud,
+    FaRobot
+} from "react-icons/fa";
+
+gsap.registerPlugin(ScrollTrigger);
 
 function Programs() {
+
+    const programsRef = useRef(null);
+
     const programs = [
         {
             icon: <FaCode />,
@@ -57,10 +71,68 @@ function Programs() {
         }
     ];
 
+    useLayoutEffect(() => {
+
+        const ctx = gsap.context(() => {
+
+            // HEADER ANIMATION
+
+            gsap.from(".programs-header > *", {
+                y: 60,
+                opacity: 0,
+                duration: 1,
+                stagger: 0.15,
+                ease: "power3.out",
+                scrollTrigger: {
+                    trigger: programsRef.current,
+                    start: "top 75%",
+                    toggleActions: "play none none reverse"
+                }
+            });
+
+            // CARDS REVEAL
+
+            gsap.from(".program-card", {
+                y: 60,
+                opacity: 0,
+                duration: 0.8,
+                ease: "power3.out",
+                scrollTrigger: {
+                    trigger: ".programs-grid",
+                    start: "top 85%",
+                    toggleActions: "play none none reverse"
+                }
+            });
+
+            // ICON POP ANIMATION
+
+            gsap.from(".program-icon", {
+                scale: 0,
+                rotation: -180,
+                duration: 0.8,
+                stagger: 0.12,
+                ease: "back.out(1.7)",
+                scrollTrigger: {
+                    trigger: ".programs-grid",
+                    start: "top 80%"
+                }
+            });
+
+        }, programsRef);
+
+        return () => ctx.revert();
+
+    }, []);
+
     return (
-        <section className="programs" id="programs">
+        <section
+            ref={programsRef}
+            className="programs"
+            id="programs"
+        >
 
             <div className="programs-header">
+
                 <span className="program-tag">
                     Our Programs
                 </span>
@@ -76,6 +148,7 @@ function Programs() {
                     to help students become job-ready
                     professionals.
                 </p>
+
             </div>
 
             <div className="programs-grid">
@@ -86,6 +159,7 @@ function Programs() {
                         className="program-card"
                         key={index}
                     >
+
                         <div className="program-icon">
                             {program.icon}
                         </div>
@@ -105,6 +179,7 @@ function Programs() {
                         <div className="program-footer">
                             {program.duration}
                         </div>
+
                     </div>
 
                 ))}

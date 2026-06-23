@@ -1,15 +1,65 @@
-﻿import "./About.css";
+﻿import { useLayoutEffect, useRef } from "react";
+import gsap from "gsap";
+import { ScrollTrigger } from "gsap/ScrollTrigger";
+import "./About.css";
+
+gsap.registerPlugin(ScrollTrigger);
 
 function About() {
+
+    const aboutRef = useRef(null);
+
+    useLayoutEffect(() => {
+
+        const ctx = gsap.context(() => {
+
+            // LEFT SIDE FADE UP
+
+            gsap.from(".about-left > *", {
+                y: 60,
+                opacity: 0,
+                duration: 1,
+                stagger: 0.15,
+                ease: "power3.out",
+                scrollTrigger: {
+                    trigger: aboutRef.current,
+                    start: "top 75%",
+                    toggleActions: "play none none reverse"
+                }
+            });
+
+            // CARDS STAGGER REVEAL
+
+            gsap.from(".about-card", {
+                y: 60,
+                opacity: 0,
+                duration: 1,
+                ease: "power3.out",
+                scrollTrigger: {
+                    trigger: ".about-right",
+                    start: "top 85%"
+                }
+            });
+
+        }, aboutRef);
+
+        return () => ctx.revert();
+
+    }, []);
+
     return (
-        <section id="about" className="about">
+        <section
+            ref={aboutRef}
+            id="about"
+            className="about"
+        >
 
             <div className="about-container">
 
                 <div className="about-left">
 
                     <span className="about-tag">
-                        ABOUT PH SOLUTIONS
+                        ABOUT Paarth Infotech
                     </span>
 
                     <h2 className="about-title">
@@ -18,7 +68,7 @@ function About() {
                     </h2>
 
                     <p className="about-text">
-                        At PH Solutions, we bridge the gap between academic
+                        At Paarth Infotech, we bridge the gap between academic
                         learning and industry requirements by providing
                         hands-on training, live projects, expert mentorship,
                         and career-focused programs.

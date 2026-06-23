@@ -63,7 +63,7 @@
     background: rgba(37,99,235,.12);
     color: #60A5FA;
     font-size: 1.8rem;
-    margin-bottom: 25px;
+    margin: 0 auto 25px;
 }
 
 .program-card h3 {

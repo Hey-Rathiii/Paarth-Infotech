@@ -1,4 +1,8 @@
-﻿import "./Services.css";
+﻿import { useLayoutEffect, useRef } from "react";
+import gsap from "gsap";
+import { ScrollTrigger } from "gsap/ScrollTrigger";
+
+import "./Services.css";
 
 import {
     FaCode,
@@ -9,9 +13,58 @@ import {
     FaRocket
 } from "react-icons/fa";
 
+gsap.registerPlugin(ScrollTrigger);
+
 function Services() {
+
+    const servicesRef = useRef(null);
+
+    useLayoutEffect(() => {
+
+        const ctx = gsap.context(() => {
+
+            // HEADER ANIMATION
+
+            gsap.from(".services-header > *", {
+                y: 60,
+                opacity: 0,
+                duration: 1,
+                stagger: 0.15,
+                ease: "power3.out",
+                scrollTrigger: {
+                    trigger: servicesRef.current,
+                    start: "top 75%",
+                    toggleActions: "play none none reverse"
+                }
+            });
+
+            // CARDS REVEAL
+
+            gsap.from(".service-card", {
+                y: 80,
+                opacity: 0,
+                duration: 1,
+                stagger: 0.15,
+                ease: "power4.out",
+                scrollTrigger: {
+                    trigger: ".services-grid",
+                    start: "top 80%",
+                    toggleActions: "play none none reverse"
+                }
+            });
+
+        }, servicesRef);
+
+        return () => ctx.revert();
+
+    }, []);
+
     return (
-        <section id="services" className="services-section">
+        <section
+            ref={servicesRef}
+            id="services"
+            className="services-section"
+        >
 
             <div className="services-header">
 

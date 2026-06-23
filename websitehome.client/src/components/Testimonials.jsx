@@ -1,14 +1,22 @@
+import { useLayoutEffect, useRef } from "react";
+import gsap from "gsap";
+import { ScrollTrigger } from "gsap/ScrollTrigger";
+
 import "./Testimonials.css";
 import { FaStar } from "react-icons/fa";
 
+gsap.registerPlugin(ScrollTrigger);
+
 function Testimonials() {
+
+    const testimonialsRef = useRef(null);
 
     const testimonials = [
         {
             name: "Anchal",
             role: "(Salesforce Developer)",
             company: "Cheetu Inc.",
-            text: "PH Solutions helped me build strong technical foundations and gain practical experience through live projects. The mentorship and placement guidance played a key role in helping me secure my position at Cheetu."
+            text: "Paarth Infotech helped me build strong technical foundations and gain practical experience through live projects. The mentorship and placement guidance played a key role in helping me secure my position at Cheetu."
         },
         {
             name: "Ayush Rathi",
@@ -24,8 +32,64 @@ function Testimonials() {
         }
     ];
 
+    useLayoutEffect(() => {
+
+        const ctx = gsap.context(() => {
+
+            // HEADER ANIMATION
+
+            gsap.from(".testimonials-header > *", {
+                y: 60,
+                opacity: 0,
+                duration: 1,
+                stagger: 0.15,
+                ease: "power3.out",
+                scrollTrigger: {
+                    trigger: testimonialsRef.current,
+                    start: "top 75%",
+                    toggleActions: "play none none reverse"
+                }
+            });
+
+            // CARD ANIMATION
+
+            gsap.from(".testimonial-card", {
+                y: 60,
+                opacity: 0,
+                duration: 0.8,
+                ease: "power3.out",
+                scrollTrigger: {
+                    trigger: ".testimonials-grid",
+                    start: "top 80%",
+                    toggleActions: "play none none reverse"
+                }
+            });
+
+            // STAR POP ANIMATION
+
+            gsap.from(".stars svg", {
+                scale: 0,
+                duration: 0.4,
+                stagger: 0.05,
+                ease: "back.out(2)",
+                scrollTrigger: {
+                    trigger: ".testimonials-grid",
+                    start: "top 80%"
+                }
+            });
+
+        }, testimonialsRef);
+
+        return () => ctx.revert();
+
+    }, []);
+
     return (
-        <section className="testimonials">
+        <section
+            ref={testimonialsRef}
+            className="testimonials"
+            id="testimonials"
+        >
 
             <div className="testimonials-header">
 
@@ -39,7 +103,7 @@ function Testimonials() {
 
                 <p>
                     Hear from students who transformed
-                    their careers with PH Solutions.
+                    their careers with Paarth Infotech.
                 </p>
 
             </div>
@@ -60,7 +124,9 @@ function Testimonials() {
                         <div className="student-role">
                             {item.role} at {item.company}
                         </div>
-                        <br/>
+
+                        <br />
+
                         <div className="stars">
                             <FaStar />
                             <FaStar />

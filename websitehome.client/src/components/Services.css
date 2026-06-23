@@ -100,7 +100,7 @@
     color: #60A5FA;
     background: rgba(37,99,235,.10);
     border: 1px solid rgba(96,165,250,.18);
-    margin-bottom: 25px;
+    margin: 0 auto 25px;
     transition: .4s ease;
 }
 

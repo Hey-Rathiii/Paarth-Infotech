@@ -1,167 +1,218 @@
-﻿import React, { useLayoutEffect, useRef } from "react";
+﻿import React, { useLayoutEffect, useRef, useMemo, useState } from "react";
 import gsap from "gsap";
+import { ScrollTrigger } from "gsap/ScrollTrigger";
+import Hyperspeed from './Hyperspeed';
+import { getPreset, getPresetKeys } from './hyperspeedPresets';
 import "./Hero.css";
 
-function Hero() {
+gsap.registerPlugin(ScrollTrigger);
 
-    const videoRef = useRef(null);
+function Hero() {
+    const titleRef = useRef(null);
+    const heroRef = useRef(null);
+    const [demoActive, setDemoActive] = useState(false);
+    const [currentPreset, setCurrentPreset] = useState('one');
+
+    // Memoize effectOptions to prevent unnecessary re-renders and WebGL scene recreations
+    // Using presets for easy switching between different Hyperspeed visual styles
+    const hyperspeedOptions = useMemo(
+        () => getPreset(currentPreset),
+        [currentPreset]
+    );
 
     useLayoutEffect(() => {
+        const ctx = gsap.context(() => {
+            const tl = gsap.timeline();
 
-        const tl = gsap.timeline();
-
-        tl.fromTo(
-            ".hero-title",
-            {
-                y: 120,
-                opacity: 0
-            },
-            {
-                y: 0,
-                opacity: 1,
-                duration: 1.4,
-                ease: "power4.out"
-            }
-        )
-
-            .fromTo(
-                ".hero-description",
+            tl.fromTo(
+                ".hero-badge",
                 {
-                    y: 40,
-                    opacity: 0
-                },
-                {
-                    y: 0,
-                    opacity: 1,
-                    duration: 1,
-                    ease: "power3.out"
-                },
-                "-=0.8"
-            )
-
-            .fromTo(
-                ".scroll-indicator",
-                {
+                    y: 20,
                     opacity: 0,
-                    y: 20
                 },
                 {
-                    opacity: 1,
                     y: 0,
-                    duration: 0.8
+                    opacity: 1,
+                    duration: 0.8,
+                    ease: "power3.out",
+                }
+            )
+                .fromTo(
+                    ".hero-title",
+                    {
+                        y: 30,
+                        opacity: 0,
+                    },
+                    {
+                        y: 0,
+                        opacity: 1,
+                        duration: 1,
+                        ease: "power4.out",
+                    },
+                    "-=0.4"
+                )
+                .fromTo(
+                    ".hero-buttons",
+                    {
+                        y: 20,
+                        opacity: 0,
+                    },
+                    {
+                        y: 0,
+                        opacity: 1,
+                        duration: 0.8,
+                        ease: "power3.out",
+                    },
+                    "-=0.5"
+                );
+
+            // HERO SCROLL TIMELINE
+            gsap.timeline({
+                scrollTrigger: {
+                    trigger: heroRef.current,
+                    start: "top top",
+                    end: "+=150%",
+                    scrub: 1.5,
                 },
-                "-=0.5"
-            );
+            })
+                .to(
+                    ".hero-content",
+                    {
+                        y: -250,
+                        opacity: 0,
+                    },
+                    0
+                );
 
-        const moveBackground = (e) => {
-
-            if (window.innerWidth < 768) return;
-
-            const x =
-                (e.clientX / window.innerWidth - 0.5) * 15;
-
-            const y =
-                (e.clientY / window.innerHeight - 0.5) * 15;
-
-            gsap.to(videoRef.current, {
-                x,
-                y,
-                duration: 2,
-                ease: "power3.out",
-                overwrite: true
+            // PARTICLES
+            gsap.to(".hero-particles", {
+                yPercent: -20,
+                ease: "none",
+                scrollTrigger: {
+                    trigger: heroRef.current,
+                    start: "top top",
+                    end: "bottom top",
+                    scrub: true,
+                },
             });
-        };
-
-        const moveContent = (e) => {
-
-            if (window.innerWidth < 768) return;
-
-            const x =
-                (e.clientX / window.innerWidth - 0.5) * -8;
-
-            const y =
-                (e.clientY / window.innerHeight - 0.5) * -8;
-
-            gsap.to(".hero-content", {
-                x,
-                y,
-                duration: 1.5,
-                ease: "power3.out",
-                overwrite: true
-            });
-        };
-
-        window.addEventListener("mousemove", moveBackground);
-        window.addEventListener("mousemove", moveContent);
+        }, heroRef);
 
         return () => {
+            ctx.revert();
+        };
+    }, []);
 
-            window.removeEventListener(
-                "mousemove",
-                moveBackground
-            );
+    // Ensure click/touch events reach the canvas for speedup
+    useLayoutEffect(() => {
+        const hero = heroRef.current;
+        if (!hero) return;
 
-            window.removeEventListener(
-                "mousemove",
-                moveContent
-            );
+        const handlePointerDown = (e) => {
+            // Ignore clicks on buttons and interactive elements
+            if (e.target.closest('.hero-btn, .toggle-switch, .demo-toggle, .preset-selector')) {
+                return;
+            }
+
+            // Pass event to the hyperspeed canvas
+            const lightsCanvas = hero.querySelector('#lights');
+            if (lightsCanvas) {
+                const mouseEvent = new MouseEvent('mousedown', {
+                    bubbles: true,
+                    cancelable: true,
+                    view: window,
+                    clientX: e.clientX,
+                    clientY: e.clientY,
+                });
+                lightsCanvas.dispatchEvent(mouseEvent);
+            }
         };
 
+        const handlePointerUp = (e) => {
+            const lightsCanvas = hero.querySelector('#lights');
+            if (lightsCanvas) {
+                const mouseEvent = new MouseEvent('mouseup', {
+                    bubbles: true,
+                    cancelable: true,
+                    view: window,
+                    clientX: e.clientX,
+                    clientY: e.clientY,
+                });
+                lightsCanvas.dispatchEvent(mouseEvent);
+            }
+        };
+
+        hero.addEventListener('pointerdown', handlePointerDown);
+        hero.addEventListener('pointerup', handlePointerUp);
+        hero.addEventListener('pointerleave', handlePointerUp);
+
+        return () => {
+            hero.removeEventListener('pointerdown', handlePointerDown);
+            hero.removeEventListener('pointerup', handlePointerUp);
+            hero.removeEventListener('pointerleave', handlePointerUp);
+        };
     }, []);
 
     return (
-        <section className="hero">
+        <section ref={heroRef} className="hero">
+            <div className="hero-background">
+                <Hyperspeed effectOptions={hyperspeedOptions} />
+            </div>
 
-            <video
-                ref={videoRef}
-                autoPlay
-                muted
-                loop
-                playsInline
-                className="hero-video"
-            >
-                <source
-                    src="/videos/background5.mp4"
-                    type="video/mp4"
-                />
-            </video>
-
-            <div className="hero-overlay"></div>
+            <div className="hero-particles"></div>
 
             <div className="hero-content">
+                <div className="hero-badge">
+                    <span className="badge-new">NEW</span>
+                    <span className="badge-text">.NET • D365 • Cloud</span>
+                </div>
 
-                <h1 className="hero-title">
-                    Transforming
+                <h1 ref={titleRef} className="hero-title">
+                    Your Vision.
+                    Our Technology.
                     <br />
-
-                    <span className="hero-highlight">
-                        Learners
-                    </span>
-
-                    <span className="hero-script">
-                        Into
-                    </span>
-
-                    <br />
-
-                    Industry
-                    <br />
-
-                    Professionals
+                    <span className="hero-highlight">Infinite Possibilities</span>
                 </h1>
 
-                <p className="hero-description">
-                    <strong>Build skills.</strong> Gain experience.
-                    Launch your career through industry-led training,
-                    live projects, mentorship, and modern technology programs.
-                </p>
+                <div className="hero-buttons">
+                    <button className="hero-btn hero-btn-primary">
+                        Get started
+                    </button>
 
+                    <button className="hero-btn hero-btn-secondary">
+                        Learn more
+                    </button>
+                </div>
             </div>
 
-            <div className="scroll-indicator">
-                ↓
+            <div className="demo-toggle">
+                <span className="demo-label">Change Presets</span>
+                <label className="toggle-switch">
+                    <input
+                        type="checkbox"
+                        checked={demoActive}
+                        onChange={(e) => setDemoActive(e.target.checked)}
+                    />
+                    <span className="toggle-slider"></span>
+                </label>
             </div>
 
+            {/* Preset Selector - Only visible when demo is active */}
+            {demoActive && (
+                <div className="preset-selector">
+                    <span className="preset-label">Presets:</span>
+                    <div className="preset-buttons">
+                        {getPresetKeys().map((key) => (
+                            <button
+                                key={key}
+                                className={`preset-btn ${currentPreset === key ? 'active' : ''}`}
+                                onClick={() => setCurrentPreset(key)}
+                            >
+                                {key}
+                            </button>
+                        ))}
+                    </div>
+                </div>
+            )}
         </section>
     );
 }
