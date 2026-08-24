@@ -1,4 +1,5 @@
 import "./Footer.css";
+import { Link } from "react-router-dom";
 
 import {
     FaLinkedinIn,
@@ -55,13 +56,17 @@ function Footer() {
 
                     <h4>Company</h4>
 
-                    <a href="#home">Home</a>
+                    <Link to="/">Home</Link>
 
-                    <a href="#about">About</a>
+                    <Link to="/about">About</Link>
 
-                    <a href="#services">Services</a>
+                    <Link to="/services">Services</Link>
 
-                    <a href="#contact">Contact</a>
+                    <Link to="/portfolio">Our Work</Link>
+
+                    <Link to="/technologies">Technologies</Link>
+
+                    <Link to="/#contact">Contact</Link>
 
                 </div>
 
@@ -71,13 +76,13 @@ function Footer() {
 
                     <h4>Programs</h4>
 
-                    <a href="#">ASP.NET Core</a>
+                    <Link to="/programs#dotnet">ASP.NET Core</Link>
 
-                    <a href="#">Full Stack</a>
+                    <Link to="/programs#full-stack">Full Stack</Link>
 
-                    <a href="#">Dynamics 365</a>
+                    <Link to="/programs#dynamics-365">Dynamics 365</Link>
 
-                    <a href="#">AI & Copilot</a>
+                    <Link to="/programs#ai-copilot">AI & Copilot</Link>
 
                 </div>
 

@@ -1,0 +1,84 @@
+.pointer-aura {
+    position: fixed;
+    top: 0;
+    left: 0;
+    z-index: 100000;
+    display: none;
+    width: 1px;
+    height: 1px;
+    opacity: 0;
+    pointer-events: none;
+    will-change: transform;
+    view-transition-name: none;
+    transition: opacity .18s ease;
+}
+
+.pointer-aura-ring,
+.pointer-aura-dot {
+    position: absolute;
+    top: 0;
+    left: 0;
+    border-radius: 50%;
+    transform: translate(-50%, -50%);
+    transition:
+        width .28s cubic-bezier(.22,1,.36,1),
+        height .28s cubic-bezier(.22,1,.36,1),
+        background-color .28s ease,
+        border-color .28s ease,
+        box-shadow .28s ease;
+}
+
+.pointer-aura-ring {
+    width: 34px;
+    height: 34px;
+    border: 1px solid color-mix(in srgb, var(--theme-accent) 72%, transparent);
+    background: color-mix(in srgb, var(--theme-accent) 6%, transparent);
+    box-shadow: 0 0 0 1px color-mix(in srgb, var(--theme-accent) 10%, transparent);
+}
+
+.pointer-aura-dot {
+    width: 4px;
+    height: 4px;
+    background: var(--theme-accent);
+    box-shadow: 0 0 12px color-mix(in srgb, var(--theme-accent) 72%, transparent);
+}
+
+.pointer-aura.is-control .pointer-aura-ring {
+    width: 58px;
+    height: 58px;
+    border-color: color-mix(in srgb, var(--theme-accent) 90%, transparent);
+    background: color-mix(in srgb, var(--theme-accent) 14%, transparent);
+    box-shadow: 0 0 28px color-mix(in srgb, var(--theme-accent) 22%, transparent);
+}
+
+.pointer-aura.is-ambient .pointer-aura-ring {
+    width: 46px;
+    height: 46px;
+    background: color-mix(in srgb, var(--theme-accent) 9%, transparent);
+}
+
+.pointer-aura.is-pressed .pointer-aura-ring {
+    width: 26px;
+    height: 26px;
+}
+
+:root[data-theme-transition="active"] .pointer-aura,
+.pointer-aura.is-hidden {
+    opacity: 0 !important;
+}
+
+@media (hover: hover) and (pointer: fine) {
+    .pointer-aura {
+        display: block;
+    }
+
+    .pointer-aura.is-visible {
+        opacity: 1;
+    }
+}
+
+@media (prefers-reduced-motion: reduce), (forced-colors: active) {
+    .pointer-aura {
+        display: none !important;
+    }
+}
