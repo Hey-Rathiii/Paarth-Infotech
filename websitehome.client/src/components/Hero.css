@@ -493,4 +493,33 @@
         padding: 8px;
         font-size: 0.72rem;
     }
+
+    .hero-pill {
+        flex-shrink: 0;
+        min-width: 260px;
+        height: 70px;
+    }
+}
+/* =========================
+   MASTER ROW
+========================= */
+
+.hero-master-row {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 16px;
+    margin-top: -10px;
+}
+
+.hero-prefix {
+    font-size: clamp(2.5rem,6vw,4.5rem);
+    font-weight: 800;
+    color: deepskyblue;
+    line-height: 1;
+    white-space: nowrap;
+}
+
+.hero-pill {
+    flex-shrink: 0;
 }

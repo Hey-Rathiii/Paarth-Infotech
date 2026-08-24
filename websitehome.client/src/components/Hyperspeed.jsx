@@ -1,4 +1,4 @@
-import { BloomEffect, EffectComposer, EffectPass, RenderPass, SMAAEffect, SMAAPreset } from 'postprocessing';
+import { BloomEffect, EffectComposer, EffectPass, RenderPass } from 'postprocessing';
 import { useEffect, useRef } from 'react';
 import * as THREE from 'three';
 
@@ -356,29 +356,34 @@ const Hyperspeed = ({ effectOptions = DEFAULT_EFFECT_OPTIONS }) => {
                 const initW = Math.max(1, container.offsetWidth);
                 const initH = Math.max(1, container.offsetHeight);
 
-                // Add error handling for WebGL
-                let contextLost = false;
-
                 this.renderer = new THREE.WebGLRenderer({
                     antialias: false,
                     alpha: true,
                     failIfMajorPerformanceCaveat: false
                 });
 
-                // Listen for context loss
-                this.renderer.domElement.addEventListener('webglcontextlost', (e) => {
+                this.contextLost = false;
+                this.animationFrameId = null;
+                this.initialized = false;
+                this.isVisible = true;
+                this.onContextLost = (e) => {
                     e.preventDefault();
-                    contextLost = true;
+                    this.contextLost = true;
+                    this.stopRendering();
                     console.warn('WebGL context lost');
-                });
-
-                this.renderer.domElement.addEventListener('webglcontextrestored', () => {
-                    contextLost = false;
+                };
+                this.onContextRestored = () => {
+                    this.contextLost = false;
+                    this.startRendering();
                     console.warn('WebGL context restored');
-                });
+                };
+
+                this.renderer.domElement.addEventListener('webglcontextlost', this.onContextLost);
+                this.renderer.domElement.addEventListener('webglcontextrestored', this.onContextRestored);
 
                 this.renderer.setSize(initW, initH, false);
-                this.renderer.setPixelRatio(window.devicePixelRatio);
+                const maxPixelRatio = window.innerWidth <= 768 ? 1 : 1.5;
+                this.renderer.setPixelRatio(Math.min(window.devicePixelRatio, maxPixelRatio));
 
                 // CRITICAL: Check if WebGL is available BEFORE creating composer
                 const context = this.renderer.getContext();
@@ -408,7 +413,6 @@ const Hyperspeed = ({ effectOptions = DEFAULT_EFFECT_OPTIONS }) => {
                 this.clock = new THREE.Clock();
                 this.assets = {};
                 this.disposed = false;
-                this.contextLost = false;
 
                 this.road = new Road(this, options);
                 this.leftCarLights = new CarLights(
@@ -443,7 +447,34 @@ const Hyperspeed = ({ effectOptions = DEFAULT_EFFECT_OPTIONS }) => {
                 this.onContextMenu = this.onContextMenu.bind(this);
 
                 this.onWindowResize = this.onWindowResize.bind(this);
-                window.addEventListener('resize', this.onWindowResize);
+                this.onVisibilityChange = () => {
+                    if (document.hidden) {
+                        this.stopRendering();
+                    } else {
+                        this.startRendering();
+                    }
+                };
+                document.addEventListener('visibilitychange', this.onVisibilityChange);
+
+                if ('ResizeObserver' in window) {
+                    this.resizeObserver = new ResizeObserver(this.onWindowResize);
+                    this.resizeObserver.observe(container);
+                } else {
+                    window.addEventListener('resize', this.onWindowResize);
+                }
+
+                if ('IntersectionObserver' in window) {
+                    this.visibilityObserver = new IntersectionObserver(([entry]) => {
+                        this.isVisible = entry.isIntersecting;
+
+                        if (this.isVisible) {
+                            this.startRendering();
+                        } else {
+                            this.stopRendering();
+                        }
+                    }, { rootMargin: '100px 0px' });
+                    this.visibilityObserver.observe(container);
+                }
 
                 if (container.offsetWidth > 0 && container.offsetHeight > 0) {
                     this.hasValidSize = true;
@@ -485,52 +516,23 @@ const Hyperspeed = ({ effectOptions = DEFAULT_EFFECT_OPTIONS }) => {
                     new BloomEffect({
                         luminanceThreshold: 0.2,
                         luminanceSmoothing: 0,
-                        resolutionScale: 1
+                        resolutionScale: 0.5
                     })
                 );
 
-                const smaaPass = new EffectPass(
-                    this.camera,
-                    new SMAAEffect({
-                        preset: SMAAPreset.MEDIUM,
-                        searchImage: SMAAEffect.searchImageDataURL,
-                        areaImage: SMAAEffect.areaImageDataURL
-                    })
-                );
                 this.renderPass.renderToScreen = false;
                 this.bloomPass.renderToScreen = false;
-                smaaPass.renderToScreen = true;
                 this.composer.addPass(this.renderPass);
                 this.composer.addPass(this.bloomPass);
-                this.composer.addPass(smaaPass);
             }
 
             loadAssets() {
-                const assets = this.assets;
-                return new Promise(resolve => {
-                    const manager = new THREE.LoadingManager(resolve);
-
-                    const searchImage = new Image();
-                    const areaImage = new Image();
-                    assets.smaa = {};
-                    searchImage.addEventListener('load', function () {
-                        assets.smaa.search = this;
-                        manager.itemEnd('smaa-search');
-                    });
-
-                    areaImage.addEventListener('load', function () {
-                        assets.smaa.area = this;
-                        manager.itemEnd('smaa-area');
-                    });
-                    manager.itemStart('smaa-search');
-                    manager.itemStart('smaa-area');
-
-                    searchImage.src = SMAAEffect.searchImageDataURL;
-                    areaImage.src = SMAAEffect.areaImageDataURL;
-                });
+                return Promise.resolve();
             }
 
             init() {
+                if (this.disposed) return;
+
                 this.initPasses();
                 const options = this.options;
                 this.road.init();
@@ -552,7 +554,8 @@ const Hyperspeed = ({ effectOptions = DEFAULT_EFFECT_OPTIONS }) => {
 
                 this.container.addEventListener('contextmenu', this.onContextMenu);
 
-                this.tick();
+                this.initialized = true;
+                this.startRendering();
             }
 
             onMouseDown(ev) {
@@ -623,8 +626,32 @@ const Hyperspeed = ({ effectOptions = DEFAULT_EFFECT_OPTIONS }) => {
                 this.composer.render(delta);
             }
 
+            startRendering() {
+                if (
+                    this.disposed ||
+                    !this.initialized ||
+                    this.contextLost ||
+                    !this.isVisible ||
+                    document.hidden ||
+                    this.animationFrameId !== null
+                ) {
+                    return;
+                }
+
+                this.clock.getDelta();
+                this.animationFrameId = requestAnimationFrame(this.tick);
+            }
+
+            stopRendering() {
+                if (this.animationFrameId !== null) {
+                    cancelAnimationFrame(this.animationFrameId);
+                    this.animationFrameId = null;
+                }
+            }
+
             dispose() {
                 this.disposed = true;
+                this.stopRendering();
 
                 if (this.scene) {
                     this.scene.traverse(object => {
@@ -645,6 +672,8 @@ const Hyperspeed = ({ effectOptions = DEFAULT_EFFECT_OPTIONS }) => {
                 }
 
                 if (this.renderer) {
+                    this.renderer.domElement.removeEventListener('webglcontextlost', this.onContextLost);
+                    this.renderer.domElement.removeEventListener('webglcontextrestored', this.onContextRestored);
                     this.renderer.dispose();
                     this.renderer.forceContextLoss();
                     if (this.renderer.domElement && this.renderer.domElement.parentNode) {
@@ -655,6 +684,9 @@ const Hyperspeed = ({ effectOptions = DEFAULT_EFFECT_OPTIONS }) => {
                     this.composer.dispose();
                 }
 
+                document.removeEventListener('visibilitychange', this.onVisibilityChange);
+                this.resizeObserver?.disconnect();
+                this.visibilityObserver?.disconnect();
                 window.removeEventListener('resize', this.onWindowResize);
                 if (this.container) {
                     this.container.removeEventListener('mousedown', this.onMouseDown);
@@ -678,7 +710,17 @@ const Hyperspeed = ({ effectOptions = DEFAULT_EFFECT_OPTIONS }) => {
             }
 
             tick() {
-                if (this.disposed) return;
+                this.animationFrameId = null;
+
+                if (
+                    this.disposed ||
+                    !this.initialized ||
+                    this.contextLost ||
+                    !this.isVisible ||
+                    document.hidden
+                ) {
+                    return;
+                }
 
                 if (!this.hasValidSize) {
                     const w = this.container.offsetWidth;
@@ -690,16 +732,8 @@ const Hyperspeed = ({ effectOptions = DEFAULT_EFFECT_OPTIONS }) => {
                         this.composer.setSize(w, h);
                         this.hasValidSize = true;
                     } else {
-                        requestAnimationFrame(this.tick);
+                        this.animationFrameId = requestAnimationFrame(this.tick);
                         return;
-                    }
-                }
-
-                if (resizeRendererToDisplaySize(this.renderer, this.setSize)) {
-                    const canvas = this.renderer.domElement;
-                    if (this.hasValidSize) {
-                        this.camera.aspect = canvas.clientWidth / canvas.clientHeight;
-                        this.camera.updateProjectionMatrix();
                     }
                 }
 
@@ -709,7 +743,7 @@ const Hyperspeed = ({ effectOptions = DEFAULT_EFFECT_OPTIONS }) => {
                     this.update(delta);
                 }
 
-                requestAnimationFrame(this.tick);
+                this.animationFrameId = requestAnimationFrame(this.tick);
             }
         }
 
@@ -1181,18 +1215,6 @@ const Hyperspeed = ({ effectOptions = DEFAULT_EFFECT_OPTIONS }) => {
         ${THREE.ShaderChunk['fog_vertex']}
       }
     `;
-
-        function resizeRendererToDisplaySize(renderer, setSize) {
-            const canvas = renderer.domElement;
-            const width = canvas.clientWidth;
-            const height = canvas.clientHeight;
-            if (width <= 0 || height <= 0) return false;
-            const needResize = canvas.width !== width || canvas.height !== height;
-            if (needResize) {
-                setSize(width, height, false);
-            }
-            return needResize;
-        }
 
         const container = hyperspeed.current;
         if (!container) return;
