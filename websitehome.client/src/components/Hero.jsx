@@ -2,12 +2,13 @@
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import Hyperspeed from './Hyperspeed';
-import { getPreset, getPresetKeys } from './hyperspeedPresets';
+import { getPreset, getPresetKeys } from './Hyperspeedpresets';
+import RotatingText from "./RotatingText/RotatingText";
 import "./Hero.css";
 
 gsap.registerPlugin(ScrollTrigger);
 
-function Hero() {
+const Hero = React.memo(function Hero() {
     const titleRef = useRef(null);
     const heroRef = useRef(null);
     const [demoActive, setDemoActive] = useState(false);
@@ -153,7 +154,7 @@ function Hero() {
     }, []);
 
     return (
-        <section ref={heroRef} className="hero">
+        <section ref={heroRef} id="home" className="hero">
             <div className="hero-background">
                 <Hyperspeed effectOptions={hyperspeedOptions} />
             </div>
@@ -166,21 +167,50 @@ function Hero() {
                     <span className="badge-text">.NET • D365 • Cloud</span>
                 </div>
 
+                {/*<h1 ref={titleRef} className="hero-title">*/}
+                {/*    Your Vision.*/}
+                {/*    Our Technology.*/}
+                {/*    <br />*/}
+                {/*    <span className="hero-highlight">Infinite Possibilities</span>*/}
+                {/*</h1>*/}
+
                 <h1 ref={titleRef} className="hero-title">
                     Your Vision.
-                    Our Technology.
                     <br />
-                    <span className="hero-highlight">Infinite Possibilities</span>
+                    Our Technology.
                 </h1>
 
-                <div className="hero-buttons">
-                    <button className="hero-btn hero-btn-primary">
-                        Get started
-                    </button>
+                <div className="hero-master-row">
 
-                    <button className="hero-btn hero-btn-secondary">
+                    <span className="hero-prefix">
+                        Master
+                    </span>
+
+                    <RotatingText
+                        texts={[
+                            "AI & ML",
+                            "Full Stack",
+                            "React",
+                            ".NET",
+                            "Python",
+                            "Cloud",
+                            "Dynamics 365",
+                            "Java",
+                            "Angular"
+                        ]}
+                        interval={2500}
+                    />
+
+                </div>
+
+                <div className="hero-buttons">
+                    <a href="#contact" className="hero-btn hero-btn-primary">
+                        Get started
+                    </a>
+
+                    <a href="#about" className="hero-btn hero-btn-secondary">
                         Learn more
-                    </button>
+                    </a>
                 </div>
             </div>
 
@@ -215,6 +245,6 @@ function Hero() {
             )}
         </section>
     );
-}
+});
 
 export default Hero;

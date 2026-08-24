@@ -1,0 +1,143 @@
+.cinematic-scroll-overlay {
+    position: fixed;
+    z-index: 40;
+    inset: 0;
+    overflow: hidden;
+    pointer-events: none;
+    isolation: isolate;
+    opacity: .08;
+    will-change: opacity;
+}
+
+.cinematic-scroll-overlay__bloom,
+.cinematic-scroll-overlay__beam,
+.cinematic-scroll-overlay__grain,
+.cinematic-scroll-overlay__edge {
+    position: absolute;
+    pointer-events: none;
+}
+
+.cinematic-scroll-overlay__bloom {
+    top: -24vmax;
+    left: 22%;
+    width: 62vmax;
+    height: 62vmax;
+    border-radius: 50%;
+    filter: blur(34px);
+    opacity: .56;
+    transform: translate3d(0, 0, 0);
+    will-change: transform;
+}
+
+.cinematic-scroll-overlay__beam {
+    top: -18%;
+    left: -36%;
+    width: min(34vw, 520px);
+    height: 145%;
+    filter: blur(10px);
+    opacity: .52;
+    transform: translate3d(0, 0, 0) rotate(-12deg);
+    will-change: transform;
+}
+
+.cinematic-scroll-overlay__grain {
+    inset: 0;
+    opacity: .16;
+    background-image: repeating-linear-gradient(
+        106deg,
+        transparent 0,
+        transparent 9px,
+        rgba(255,255,255,.12) 10px,
+        transparent 11px,
+        transparent 21px
+    );
+    mask-image: linear-gradient(90deg, transparent, #000 30%, #000 72%, transparent);
+}
+
+.cinematic-scroll-overlay__edge {
+    inset: 0;
+    opacity: .82;
+    background: radial-gradient(
+        ellipse at center,
+        transparent 44%,
+        rgba(2, 6, 23, .18) 100%
+    );
+}
+
+.cinematic-scroll-overlay--programs .cinematic-scroll-overlay__bloom {
+    background: radial-gradient(
+        circle,
+        rgba(37, 99, 235, .4),
+        rgba(34, 211, 238, .1) 42%,
+        transparent 70%
+    );
+}
+
+.cinematic-scroll-overlay--programs .cinematic-scroll-overlay__beam {
+    background: linear-gradient(
+        90deg,
+        transparent,
+        rgba(96, 165, 250, .06) 14%,
+        rgba(125, 211, 252, .65) 48%,
+        rgba(96, 165, 250, .08) 82%,
+        transparent
+    );
+}
+
+.cinematic-scroll-overlay--services .cinematic-scroll-overlay__bloom {
+    background: radial-gradient(
+        circle,
+        rgba(34, 211, 238, .3),
+        rgba(37, 99, 235, .14) 44%,
+        transparent 70%
+    );
+}
+
+.cinematic-scroll-overlay--services .cinematic-scroll-overlay__beam {
+    background: linear-gradient(
+        90deg,
+        transparent,
+        rgba(34, 211, 238, .05) 14%,
+        rgba(96, 165, 250, .58) 48%,
+        rgba(34, 211, 238, .06) 82%,
+        transparent
+    );
+}
+
+:root[data-theme="light"] .cinematic-scroll-overlay {
+    mix-blend-mode: multiply;
+}
+
+:root[data-theme="light"] .cinematic-scroll-overlay__edge {
+    background: radial-gradient(
+        ellipse at center,
+        transparent 46%,
+        rgba(37, 99, 235, .1) 100%
+    );
+}
+
+@media (max-width: 720px) {
+    .cinematic-scroll-overlay__bloom {
+        top: -12vmax;
+        left: -20vmax;
+        width: 78vmax;
+        height: 78vmax;
+        filter: blur(28px);
+    }
+
+    .cinematic-scroll-overlay__beam {
+        width: 52vw;
+        filter: blur(8px);
+        opacity: .42;
+    }
+
+    .cinematic-scroll-overlay__grain {
+        opacity: .1;
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .cinematic-scroll-overlay {
+        display: none;
+    }
+}

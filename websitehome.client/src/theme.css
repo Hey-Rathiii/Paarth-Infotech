@@ -1,0 +1,322 @@
+:root[data-theme="dark"] {
+    --bg: #050505;
+    --text: #a7b0bf;
+    --text-h: #f8fafc;
+    --border: rgba(255,255,255,.08);
+    --theme-page: #050505;
+    --theme-page-alt: #080808;
+    --theme-surface: rgba(255,255,255,.03);
+    --theme-surface-strong: #111318;
+    --theme-text: #f8fafc;
+    --theme-muted: rgba(255,255,255,.72);
+    --theme-border: rgba(255,255,255,.08);
+    --theme-nav: rgba(5,5,5,.94);
+    --theme-shadow: 0 24px 60px rgba(0,0,0,.35);
+    --theme-accent: #60a5fa;
+    --drawer-bg: rgba(7,9,14,.97);
+    --drawer-text: #f8fafc;
+    --drawer-muted: #8e9aab;
+    --drawer-border: rgba(255,255,255,.09);
+    --drawer-control: rgba(255,255,255,.06);
+    --drawer-backdrop: rgba(0,0,0,.62);
+}
+
+:root[data-theme="light"] {
+    --bg: #f4f7fb;
+    --text: #5b677a;
+    --text-h: #111827;
+    --border: rgba(15,23,42,.10);
+    --code-bg: #eef2f7;
+    --social-bg: rgba(255,255,255,.8);
+    --shadow: 0 20px 50px rgba(15,23,42,.10);
+    --theme-page: #f4f7fb;
+    --theme-page-alt: #ffffff;
+    --theme-surface: rgba(255,255,255,.82);
+    --theme-surface-strong: #ffffff;
+    --theme-text: #172033;
+    --theme-muted: #5f6b7d;
+    --theme-border: rgba(15,23,42,.10);
+    --theme-nav: rgba(255,255,255,.96);
+    --theme-shadow: 0 24px 60px rgba(15,23,42,.12);
+    --theme-accent: #2563eb;
+    --drawer-bg: rgba(248,250,252,.98);
+    --drawer-text: #172033;
+    --drawer-muted: #667085;
+    --drawer-border: rgba(15,23,42,.10);
+    --drawer-control: rgba(255,255,255,.82);
+    --drawer-backdrop: rgba(15,23,42,.38);
+}
+
+body,
+#root {
+    background: var(--theme-page);
+    color: var(--theme-text);
+}
+
+::view-transition-old(root),
+::view-transition-new(root) {
+    animation: none;
+    mix-blend-mode: normal;
+}
+
+::view-transition-old(root) {
+    z-index: 1;
+}
+
+::view-transition-new(root) {
+    z-index: 2147483646;
+}
+
+.theme-fallback-circle {
+    position: fixed;
+    z-index: 2147483646;
+    border-radius: 50%;
+    pointer-events: none;
+    transform: translate(-50%, -50%) scale(0);
+    will-change: transform, opacity;
+}
+
+:root[data-theme-transition="active"] .theme-toggle {
+    pointer-events: none;
+}
+
+/* The hero and footer intentionally remain dark in both themes. */
+
+:root[data-theme="light"] .about {
+    background:
+        radial-gradient(circle at 85% 10%, rgba(37,99,235,.10), transparent 32%),
+        linear-gradient(180deg, #ffffff 0%, #f4f7fb 100%);
+}
+
+:root[data-theme="light"] .services-section,
+:root[data-theme="light"] .programs,
+:root[data-theme="light"] .faq-section {
+    background: var(--theme-page);
+}
+
+:root[data-theme="light"] .tech-stack,
+:root[data-theme="light"] .testimonials,
+:root[data-theme="light"] .contact-section {
+    background: var(--theme-page-alt);
+}
+
+:root[data-theme="light"] .about-title,
+:root[data-theme="light"] .services-header h2,
+:root[data-theme="light"] .tech-header h2,
+:root[data-theme="light"] .programs-header h2,
+:root[data-theme="light"] .testimonials-header h2,
+:root[data-theme="light"] .faq-header h2,
+:root[data-theme="light"] .contact-form-card h2 {
+    color: var(--theme-text);
+}
+
+:root[data-theme="light"] .about-text,
+:root[data-theme="light"] .about-card p,
+:root[data-theme="light"] .services-header p,
+:root[data-theme="light"] .programs-header p,
+:root[data-theme="light"] .testimonials-header p,
+:root[data-theme="light"] .faq-header p,
+:root[data-theme="light"] .contact-form-card p {
+    color: var(--theme-muted);
+}
+
+:root[data-theme="light"] .about-tag,
+:root[data-theme="light"] .about-title span,
+:root[data-theme="light"] .about-card h3,
+:root[data-theme="light"] .section-tag,
+:root[data-theme="light"] .tech-tag,
+:root[data-theme="light"] .tech-header span,
+:root[data-theme="light"] .program-tag,
+:root[data-theme="light"] .program-icon,
+:root[data-theme="light"] .program-level,
+:root[data-theme="light"] .program-flip-hint,
+:root[data-theme="light"] .program-back-label,
+:root[data-theme="light"] .program-project > span,
+:root[data-theme="light"] .program-outcomes > span,
+:root[data-theme="light"] .program-skills li span,
+:root[data-theme="light"] .testimonial-tag,
+:root[data-theme="light"] .student-role,
+:root[data-theme="light"] .stars,
+:root[data-theme="light"] .faq-tag,
+:root[data-theme="light"] .contact-tag,
+:root[data-theme="light"] .contact-form-card h2 span {
+    color: var(--theme-accent);
+}
+
+:root[data-theme="light"] .about-card,
+:root[data-theme="light"] .program-face,
+:root[data-theme="light"] .testimonial-card,
+:root[data-theme="light"] .faq-item,
+:root[data-theme="light"] .contact-form-card {
+    background: var(--theme-surface-strong);
+    border-color: var(--theme-border);
+    box-shadow: var(--theme-shadow);
+}
+
+:root[data-theme="light"] .about-card:hover,
+:root[data-theme="light"] .testimonial-card:hover {
+    border-color: rgba(37,99,235,.30);
+    box-shadow: 0 28px 60px rgba(37,99,235,.13);
+}
+
+:root[data-theme="light"] .program-card-shell:focus-within .program-face {
+    border-color: rgba(37,99,235,.30);
+    box-shadow: 0 28px 60px rgba(37,99,235,.13);
+}
+
+@media (hover: hover) and (pointer: fine) {
+    :root[data-theme="light"] .program-card-shell:hover .program-face {
+        border-color: rgba(37,99,235,.30);
+        box-shadow: 0 28px 60px rgba(37,99,235,.13);
+    }
+}
+
+:root[data-theme="light"] .program-face {
+    background:
+        radial-gradient(circle at 85% 10%, rgba(37,99,235,.11), transparent 34%),
+        linear-gradient(160deg, #ffffff 0%, #f7f9fd 100%);
+}
+
+:root[data-theme="light"] .program-card-back {
+    background:
+        radial-gradient(circle at 15% 10%, rgba(37,99,235,.16), transparent 38%),
+        linear-gradient(145deg, #edf4ff 0%, #ffffff 100%);
+}
+
+:root[data-theme="light"] .program-project {
+    border-color: rgba(37,99,235,.16);
+    background: rgba(219,234,254,.58);
+}
+
+:root[data-theme="light"] .program-face-footer,
+:root[data-theme="light"] .program-back-footer {
+    border-top-color: var(--theme-border);
+}
+
+:root[data-theme="light"] .about-btn-secondary {
+    color: var(--theme-text);
+    background: #ffffff;
+    border-color: var(--theme-border);
+    box-shadow: 0 12px 30px rgba(15,23,42,.08);
+}
+
+:root[data-theme="light"] .about-btn-secondary:hover {
+    background: #eff6ff;
+}
+
+:root[data-theme="light"] .marquee-track span {
+    color: var(--theme-text);
+    background: #f8fafc;
+    border-color: var(--theme-border);
+    box-shadow: 0 8px 22px rgba(15,23,42,.06);
+}
+
+:root[data-theme="light"] .program-card h3,
+:root[data-theme="light"] .student-name,
+:root[data-theme="light"] .faq-question {
+    color: var(--theme-text);
+}
+
+:root[data-theme="light"] .program-card li,
+:root[data-theme="light"] .program-project p,
+:root[data-theme="light"] .program-back-footer,
+:root[data-theme="light"] .company,
+:root[data-theme="light"] .testimonial-text,
+:root[data-theme="light"] .faq-answer p {
+    color: var(--theme-muted);
+}
+
+:root[data-theme="light"] .faq-item.active {
+    border-color: rgba(37,99,235,.32);
+    box-shadow: 0 18px 45px rgba(37,99,235,.10);
+}
+
+:root[data-theme="light"] .contact-form input,
+:root[data-theme="light"] .contact-form select,
+:root[data-theme="light"] .contact-form textarea {
+    color: var(--theme-text);
+    background: #ffffff;
+    border-color: var(--theme-border);
+}
+
+:root[data-theme="light"] .contact-form input::placeholder,
+:root[data-theme="light"] .contact-form textarea::placeholder {
+    color: #8893a5;
+}
+
+:root[data-theme="light"] .contact-form select option {
+    color: var(--theme-text);
+    background: #ffffff;
+}
+
+:root[data-theme="light"] .contact-map-card {
+    border-color: var(--theme-border);
+    box-shadow: var(--theme-shadow);
+}
+
+/* Navbar remains white over the dark hero, then follows the selected theme. */
+
+:root[data-theme="light"] .navbar-scrolled {
+    background: var(--theme-nav);
+    border-bottom-color: var(--theme-border);
+    box-shadow: 0 10px 35px rgba(15,23,42,.08);
+}
+
+:root[data-theme="light"] .navbar-scrolled .desktop-nav a,
+:root[data-theme="light"] .navbar-scrolled .nav-item button {
+    color: var(--theme-text);
+}
+
+:root[data-theme="light"] .navbar-scrolled .mega-menu {
+    background: rgba(255,255,255,.98);
+    border-color: var(--theme-border);
+    box-shadow: var(--theme-shadow);
+}
+
+:root[data-theme="light"] .navbar-scrolled .mega-menu a {
+    color: var(--theme-text);
+}
+
+:root[data-theme="light"] .navbar-scrolled .pi-icon {
+    background: #eff6ff;
+    border-color: rgba(37,99,235,.18);
+    box-shadow: 0 8px 24px rgba(37,99,235,.12);
+}
+
+:root[data-theme="light"] .navbar-scrolled .pi-text,
+:root[data-theme="light"] .navbar-scrolled .pi-title {
+    color: #1d4ed8;
+}
+
+:root[data-theme="light"] .navbar-scrolled .theme-toggle {
+    color: #1d4ed8;
+    background: #eff6ff;
+    border-color: rgba(37,99,235,.18);
+}
+
+:root[data-theme="light"] .navbar-scrolled .theme-toggle-icon-light {
+    color: #1e3a8a;
+}
+
+:root[data-theme="light"] .navbar-scrolled .mobile-toggle,
+:root[data-theme="light"] .navbar-menu-open .mobile-toggle {
+    color: var(--theme-text);
+    background: #eff6ff;
+    border-color: rgba(37,99,235,.18);
+}
+
+:root[data-theme="light"] .navbar-menu-open .pi-icon {
+    background: #eff6ff;
+    border-color: rgba(37,99,235,.18);
+}
+
+@media (prefers-reduced-motion: reduce) {
+    ::view-transition-old(root),
+    ::view-transition-new(root) {
+        animation: none !important;
+    }
+
+    .theme-toggle-icon {
+        animation: none;
+    }
+}

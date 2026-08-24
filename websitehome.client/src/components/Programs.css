@@ -14,7 +14,7 @@
     border-radius: 999px;
     background: rgba(37,99,235,.12);
     border: 1px solid rgba(37,99,235,.25);
-    color: #60A5FA;
+    color: #60a5fa;
     margin-bottom: 24px;
     font-weight: 600;
 }
@@ -27,7 +27,7 @@
 
 .programs-header p {
     color: rgba(255,255,255,.75);
-    max-width: 700px;
+    max-width: 760px;
     margin: auto;
     font-size: 1.1rem;
     line-height: 1.8;
@@ -37,64 +37,317 @@
     display: grid;
     grid-template-columns: repeat(4,1fr);
     gap: 30px;
+    align-items: stretch;
+}
+
+.program-card-shell {
+    min-width: 0;
+    min-height: 630px;
+    position: relative;
+    overflow: hidden;
+    border-radius: 30px;
+    perspective: 1400px;
+    background: #07090d;
+    isolation: isolate;
+    cursor: pointer;
 }
 
 .program-card {
-    background: linear-gradient( 180deg, rgba(255,255,255,.03), rgba(255,255,255,.01) );
-    border: 1px solid rgba(255,255,255,.06);
-    border-radius: 30px;
-    padding: 35px;
-    transition: .35s ease;
+    position: relative;
+    width: 100%;
+    height: 100%;
+    min-height: 630px;
+    transform-style: preserve-3d;
+    transition: transform .78s cubic-bezier(.2,.75,.2,1);
+    will-change: transform;
+    -webkit-transform-style: preserve-3d;
 }
 
-    .program-card:hover {
-        transform: translateY(-10px);
-        border-color: rgba(96,165,250,.35);
-        box-shadow: 0 20px 40px rgba(37,99,235,.15);
-    }
+.program-card-shell.is-flipped .program-card {
+    transform: rotateY(180deg);
+}
+
+.program-face {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    flex-direction: column;
+    padding: 32px;
+    overflow: hidden;
+    border: 1px solid rgba(255,255,255,.08);
+    border-radius: 30px;
+    background:
+        radial-gradient(circle at 85% 10%, rgba(37,99,235,.15), transparent 34%),
+        linear-gradient(160deg, #11141b 0%, #07090d 100%);
+    box-shadow: 0 18px 45px rgba(0,0,0,.22);
+    -webkit-backface-visibility: hidden;
+    backface-visibility: hidden;
+    transform: rotateY(0deg) translateZ(1px);
+    -webkit-transform: rotateY(0deg) translateZ(1px);
+    background-clip: padding-box;
+    will-change: transform;
+    transition:
+        border-color .35s ease,
+        box-shadow .35s ease;
+}
+
+.program-face::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background:
+        linear-gradient(
+            120deg,
+            transparent 20%,
+            rgba(96,165,250,.08) 48%,
+            transparent 72%
+        );
+    opacity: 0;
+    transform: translateX(-35%);
+    transition:
+        opacity .35s ease,
+        transform .65s cubic-bezier(.22,1,.36,1);
+    pointer-events: none;
+}
+
+.program-card-shell:focus-within .program-face {
+    border-color: rgba(96,165,250,.38);
+    box-shadow: 0 28px 60px rgba(37,99,235,.17);
+}
+
+.program-card-shell:focus-within .program-face::before {
+    opacity: 1;
+    transform: translateX(35%);
+}
+
+.program-card-front {
+    z-index: 2;
+}
+
+.program-card-back {
+    transform: rotateY(180deg) translateZ(1px);
+    -webkit-transform: rotateY(180deg) translateZ(1px);
+    background:
+        radial-gradient(circle at 15% 10%, rgba(37,99,235,.24), transparent 36%),
+        linear-gradient(145deg, #121a2b 0%, #080b12 100%);
+}
+
+:root[data-theme="light"] .program-card-shell {
+    background: #ffffff;
+}
 
 .program-icon {
+    position: relative;
+    z-index: 1;
     width: 70px;
     height: 70px;
-    border-radius: 18px;
+    flex: 0 0 70px;
     display: flex;
     align-items: center;
     justify-content: center;
-    background: rgba(37,99,235,.12);
-    color: #60A5FA;
+    margin: 0 auto 20px;
+    border: 1px solid rgba(96,165,250,.16);
+    border-radius: 20px;
+    color: #60a5fa;
+    background: rgba(37,99,235,.13);
+    box-shadow: inset 0 1px rgba(255,255,255,.08);
     font-size: 1.8rem;
-    margin: 0 auto 25px;
+}
+
+.program-level {
+    align-self: center;
+    margin-bottom: 14px;
+    color: #8ec1ff;
+    font-size: .72rem;
+    font-weight: 800;
+    letter-spacing: .12em;
+    text-transform: uppercase;
 }
 
 .program-card h3 {
-    margin-bottom: 20px;
-    font-size: 1.4rem;
+    position: relative;
+    z-index: 1;
+    margin: 0 0 22px;
+    color: #f8fafc;
+    font-size: 1.38rem;
+    line-height: 1.28;
 }
 
-.program-card ul {
+.program-skills {
+    position: relative;
+    z-index: 1;
+    display: grid;
+    gap: 11px;
+    margin: 0;
+    padding: 0;
     list-style: none;
+    text-align: left;
 }
 
-.program-card li {
-    margin-bottom: 12px;
-    color: rgba(255,255,255,.8);
+.program-skills li {
+    color: rgba(255,255,255,.78);
+    font-size: .9rem;
+    line-height: 1.35;
 }
 
-.program-footer {
-    margin-top: 25px;
-    color: #60A5FA;
+.program-skills li span {
+    color: #60a5fa;
+    font-weight: 800;
+}
+
+.program-face-footer,
+.program-back-footer {
+    position: relative;
+    z-index: 1;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+    margin-top: auto;
+    padding-top: 22px;
+    border-top: 1px solid rgba(255,255,255,.08);
+    color: #60a5fa;
+    font-size: .84rem;
     font-weight: 700;
 }
 
-@media(max-width:1200px) {
+.program-flip-hint {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 3px 0;
+    border: 0;
+    color: inherit;
+    background: transparent;
+    font: inherit;
+    white-space: nowrap;
+    cursor: pointer;
+}
 
+.program-flip-hint:focus-visible {
+    border-radius: 6px;
+    outline: 3px solid rgba(96,165,250,.52);
+    outline-offset: 5px;
+}
+
+.program-flip-hint svg {
+    font-size: .72rem;
+    transition: transform .28s ease;
+}
+
+.program-card-back .program-flip-hint svg {
+    transform: rotate(180deg);
+}
+
+@media (hover: hover) and (pointer: fine) {
+    .program-card-shell:hover .program-face {
+        border-color: rgba(96,165,250,.38);
+        box-shadow: 0 28px 60px rgba(37,99,235,.17);
+    }
+
+    .program-card-shell:hover .program-face::before {
+        opacity: 1;
+        transform: translateX(35%);
+    }
+
+    .program-card-shell:hover .program-flip-hint svg {
+        transform: translateX(4px);
+    }
+
+    .program-card-shell:hover .program-card-back .program-flip-hint svg {
+        transform: rotate(180deg) translateX(4px);
+    }
+}
+
+.program-back-label,
+.program-project > span,
+.program-outcomes > span {
+    position: relative;
+    z-index: 1;
+    color: #60a5fa;
+    font-size: .72rem;
+    font-weight: 800;
+    letter-spacing: .1em;
+    text-transform: uppercase;
+}
+
+.program-back-label {
+    margin-bottom: 12px;
+}
+
+.program-project {
+    position: relative;
+    z-index: 1;
+    margin-bottom: 22px;
+    padding: 16px;
+    border: 1px solid rgba(96,165,250,.16);
+    border-radius: 18px;
+    background: rgba(37,99,235,.09);
+    text-align: left;
+}
+
+.program-project p {
+    margin-top: 8px;
+    color: rgba(255,255,255,.82);
+    font-size: .88rem;
+    line-height: 1.55;
+}
+
+.program-outcomes {
+    position: relative;
+    z-index: 1;
+    text-align: left;
+}
+
+.program-outcomes ul {
+    display: grid;
+    gap: 12px;
+    margin: 14px 0 0;
+    padding: 0;
+    list-style: none;
+}
+
+.program-outcomes li {
+    position: relative;
+    padding-left: 20px;
+    color: rgba(255,255,255,.76);
+    font-size: .86rem;
+    line-height: 1.45;
+}
+
+.program-outcomes li::before {
+    content: "";
+    position: absolute;
+    top: .55em;
+    left: 0;
+    width: 7px;
+    height: 7px;
+    border-radius: 50%;
+    background: #60a5fa;
+    box-shadow: 0 0 12px rgba(96,165,250,.55);
+}
+
+.program-back-footer {
+    color: rgba(255,255,255,.7);
+    text-align: left;
+}
+
+.program-back-footer .program-flip-hint {
+    color: #60a5fa;
+}
+
+@media(max-width:1500px) {
     .programs-grid {
         grid-template-columns: repeat(2,1fr);
+    }
+
+    .program-card-shell,
+    .program-card {
+        min-height: 540px;
     }
 }
 
 @media(max-width:768px) {
-
     .programs-grid {
         grid-template-columns: 1fr;
     }
@@ -103,7 +356,43 @@
         padding: 100px 24px;
     }
 
+    .programs-header {
+        margin-bottom: 56px;
+    }
+
     .programs-header h2 {
         font-size: 2.5rem;
+    }
+
+    .program-card-shell,
+    .program-card {
+        min-height: 560px;
+    }
+}
+
+@media(max-width:420px) {
+    .program-face {
+        padding: 26px 22px;
+    }
+
+    .program-card-shell,
+    .program-card {
+        min-height: 590px;
+    }
+
+    .program-back-footer {
+        align-items: flex-start;
+        flex-direction: column;
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .program-card {
+        transition-duration: .01ms;
+    }
+
+    .program-face::before,
+    .program-flip-hint svg {
+        transition: none;
     }
 }

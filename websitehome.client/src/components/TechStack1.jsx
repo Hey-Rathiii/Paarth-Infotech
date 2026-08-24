@@ -25,7 +25,7 @@ function TechStack() {
     ];
 
     return (
-        <section className="tech-stack">
+        <section className="tech-stack" id="technologies">
 
             <div className="tech-header">
 

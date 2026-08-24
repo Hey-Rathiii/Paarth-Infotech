@@ -22,6 +22,55 @@ body {
     overflow-x: hidden;
 }
 
+html {
+    scroll-padding-top: 90px;
+}
+
+.route-loader {
+    min-height: 100svh;
+    display: grid;
+    place-items: center;
+    background: #050505;
+}
+
+.route-loader > span {
+    width: 48px;
+    height: 48px;
+    border: 2px solid rgba(96,165,250,.2);
+    border-top-color: #60a5fa;
+    border-radius: 50%;
+    animation: route-loader-spin .8s linear infinite;
+}
+
+@keyframes route-loader-spin {
+    to {
+        transform: rotate(360deg);
+    }
+}
+
+@media (max-width: 768px) {
+    body .mobile-drawer,
+    body .demo-toggle,
+    body .hero-badge,
+    body .rt-wrapper,
+    body .pi-icon,
+    body .service-icon,
+    body .about-btn-secondary,
+    body .about-card,
+    body .faq-item,
+    body .contact-form-card,
+    body .marquee-track span {
+        -webkit-backdrop-filter: none;
+        backdrop-filter: none;
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .route-loader > span {
+        animation: none;
+    }
+}
+
 /* =========================
    SCROLLBAR
 ========================= */
