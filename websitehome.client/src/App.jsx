@@ -12,6 +12,7 @@ import { Route, Routes } from "react-router-dom";
 import Lenis from "lenis";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
+import { Analytics } from "@vercel/analytics/react";
 import "tailwindcss";
 import "lenis/dist/lenis.css";
 import "./App.css";
@@ -252,6 +253,7 @@ function App() {
                 </Routes>
             </Suspense>
             <Footer />
+            <Analytics />
         </>
     );
 }
