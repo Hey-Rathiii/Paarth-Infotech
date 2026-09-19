@@ -1,4 +1,5 @@
-import { useEffect, useLayoutEffect, useRef } from "react";
+import { programDetails } from "../content/site";
+import { useLayoutEffect, useRef } from "react";
 import { Link } from "react-router-dom";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
@@ -11,10 +12,7 @@ import {
     Server
 } from "lucide-react";
 
-import aspNetImage from "../images/asp.net.png";
-import fullStackImage from "../images/fullstack.png";
-import projectsImage from "../images/projects.png";
-import aiImage from "../images/Ai.png";
+import { taskflowImage, assistantProjectImage, businessWorkflowImage } from "../content/imagery";
 import CinematicScrollOverlay from "../components/CinematicScrollOverlay";
 import "./ProgramsPage.css";
 
@@ -28,9 +26,7 @@ const programs = [
         title: "ASP.NET Core Developer",
         description:
             "Move from C# foundations to secure, production-minded APIs and data-driven business applications.",
-        duration: "4 months",
-        level: "Beginner to Pro",
-        format: "Live mentoring + capstone",
+        level: "Foundations to projects",
         skills: [
             "C#",
             "ASP.NET Core",
@@ -54,9 +50,7 @@ const programs = [
         title: "Full Stack Development",
         description:
             "Own the complete product journey—from responsive React interfaces to a secure API and database.",
-        duration: "6 months",
         level: "Career Track",
-        format: "Frontend + backend projects",
         skills: [
             "HTML",
             "CSS",
@@ -80,9 +74,7 @@ const programs = [
         title: "Microsoft Dynamics 365",
         description:
             "Build enterprise workflows that connect operations, reporting, integrations and the Power Platform.",
-        duration: "3 months",
         level: "Specialist",
-        format: "Enterprise workflow labs",
         skills: [
             "Finance & Operations",
             "X++",
@@ -106,9 +98,7 @@ const programs = [
         title: "AI & Copilot",
         description:
             "Turn business problems into practical copilots, reliable prompts and connected automated workflows.",
-        duration: "2 months",
         level: "Fast Track",
-        format: "Automation-first workshops",
         skills: [
             "Prompt Engineering",
             "Azure AI",
@@ -125,7 +115,7 @@ const programs = [
             "Connect Azure AI capabilities to automated workflows"
         ]
     }
-];
+].map((program) => ({ ...program, ...programDetails[program.id] }));
 
 const learningSteps = [
     {
@@ -153,9 +143,9 @@ const learningSteps = [
 const projects = [
     {
         id: "operations-hub",
-        image: aspNetImage,
+        image: taskflowImage,
         imageAlt:
-            "Blue-lit server infrastructure representing the Operations Hub capstone",
+            "AI-generated task-board application on a laptop, illustrating a business workflow capstone",
         number: "01",
         title: "Operations Hub",
         category: "ASP.NET Core capstone",
@@ -167,9 +157,9 @@ const projects = [
     },
     {
         id: "commerce-command-center",
-        image: fullStackImage,
+        image: businessWorkflowImage,
         imageAlt:
-            "Connected illuminated pathways representing a full stack commerce application",
+            "AI-generated business dashboard with product and order management on a desktop monitor",
         number: "02",
         title: "Commerce Command Center",
         category: "Full stack capstone",
@@ -181,9 +171,9 @@ const projects = [
     },
     {
         id: "finance-flow-extension",
-        image: projectsImage,
+        image: businessWorkflowImage,
         imageAlt:
-            "Professional development workstation representing a Dynamics 365 extension project",
+            "AI-generated operations dashboard with invoice approvals, illustrating a finance workflow concept",
         number: "03",
         title: "Finance Flow Extension",
         category: "Dynamics 365 capstone",
@@ -195,9 +185,9 @@ const projects = [
     },
     {
         id: "copilot-service-desk",
-        image: aiImage,
+        image: assistantProjectImage,
         imageAlt:
-            "Futuristic AI assistant representing the Copilot Service Desk capstone",
+            "AI-generated laptop with a conversational assistant interface, illustrating a support assistant capstone",
         number: "04",
         title: "Copilot Service Desk",
         category: "AI & Copilot capstone",
@@ -216,15 +206,6 @@ const projects = [
 
 function ProgramsPage() {
     const pageRef = useRef(null);
-
-    useEffect(() => {
-        const previousTitle = document.title;
-        document.title = "Programs & Projects | Paarth Infotech";
-
-        return () => {
-            document.title = previousTitle;
-        };
-    }, []);
 
     useLayoutEffect(() => {
         const page = pageRef.current;
@@ -464,7 +445,7 @@ function ProgramsPage() {
     }, []);
 
     return (
-        <main ref={pageRef} className="programs-page" id="programs-page">
+        <main ref={pageRef} className="programs-page" id="main-content" tabIndex={-1}>
             <CinematicScrollOverlay pageRef={pageRef} variant="programs" />
 
             <section
@@ -699,6 +680,8 @@ function ProgramsPage() {
                 </div>
             </section>
 
+            <div className="enrollment-note"><strong>Before you enroll</strong><p>Confirm the current batch dates, mentor, weekly commitment, total fees and cancellation terms. Program durations are indicative; career guidance does not guarantee a job.</p><Link to="/terms#training">What to clarify before enrolling →</Link></div>
+
             <section
                 className="programs-page__journey"
                 id="learning-path"
@@ -753,7 +736,7 @@ function ProgramsPage() {
                     <p>
                         These are transparent capstone briefs—realistic products
                         learners can build, explain and extend as their skills
-                        grow.
+                        grow. Images are AI-generated concept illustrations.
                     </p>
                 </div>
 
@@ -774,6 +757,8 @@ function ProgramsPage() {
                                         alt={project.imageAlt}
                                         loading="lazy"
                                         decoding="async"
+                                        width="1536"
+                                        height="1024"
                                     />
                                     <span>{project.number}</span>
                                 </div>

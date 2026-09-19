@@ -1,98 +1,18 @@
+import { useId } from "react";
+import { Link } from "react-router-dom";
 import "./FAQ.css";
-import { useState } from "react";
-import { FaPlus, FaMinus } from "react-icons/fa";
 
-function FAQ() {
+const faqs = [
+    ["Are you a training company or a software development company?", "Both. Our programs focus on practical technical learning, while our business services cover web applications, cloud solutions and enterprise workflows."],
+    ["Do I need prior coding experience?", "The right starting point depends on the program and your current skills. Share your experience so we can discuss prerequisites and the learning path before you enroll."],
+    ["Will I work on projects?", "Programs include practical assignments and project work. Ask for the current syllabus and capstone brief to understand what you will build and how it will be reviewed."],
+    ["Does training guarantee a job?", "No. Ask about the project reviews, interview preparation and career guidance included in your program. Employment decisions are made by employers; a course does not guarantee a placement or salary."],
+    ["Where can I find fees, class dates and cancellation details?", "Request the current batch schedule, complete fee breakdown, mentor details and cancellation terms before enrolling. These details depend on the program and should be confirmed in writing."],
+    ["How do I discuss a software project?", "Share the problem you want to solve, your priorities and any target timeline through the contact section. You can use the email draft form or write directly to the address shown."],
+    ["Are the portfolio projects delivered client projects?", "The current portfolio contains clearly labeled illustrative concepts. They show possible project directions and technology choices, not measured client results."]
+];
 
-    const faqs = [
-        {
-            question: "Do I need prior coding experience?",
-            answer: "No. Our programs are designed for beginners as well as professionals looking to upskill."
-        },
-        {
-            question: "Will I work on live projects?",
-            answer: "Yes. Students gain hands-on experience through practical assignments and real-world projects."
-        },
-        {
-            question: "Which technologies do you teach?",
-            answer: "We provide training in ASP.NET Core, React, Dynamics 365, Azure, SQL Server, AI, and other modern technologies."
-        },
-        {
-            question: "Do you provide certificates?",
-            answer: "Yes. Students receive a certificate upon successful completion of the program."
-        },
-        {
-            question: "How are the classes conducted?",
-            answer: "Classes can be conducted online, offline, or in hybrid mode depending on the program."
-        },
-        {
-            question: "Can working professionals join?",
-            answer: "Absolutely. Our flexible learning approach is suitable for students and working professionals."
-        }
-    ];
-
-    const [active, setActive] = useState(null);
-
-    const toggleFAQ = (index) => {
-        setActive(active === index ? null : index);
-    };
-
-    return (
-        <section className="faq-section" id="faq">
-
-            <div className="faq-header">
-
-                <span className="faq-tag">
-                    Frequently Asked Questions
-                </span>
-
-                <h2>
-                    Got Questions?
-                    <br />
-                    We've Got Answers
-                </h2>
-
-                <p>
-                    Everything you need to know about our training programs and learning experience.
-                </p>
-
-            </div>
-
-            <div className="faq-container">
-
-                {faqs.map((faq, index) => (
-
-                    <div
-                        className={`faq-item ${active === index ? "active" : ""}`}
-                        key={index}
-                    >
-
-                        <button
-                            className="faq-question"
-                            onClick={() => toggleFAQ(index)}
-                        >
-                            {faq.question}
-
-                            {active === index ?
-                                <FaMinus /> :
-                                <FaPlus />
-                            }
-                        </button>
-
-                        <div
-                            className={`faq-answer ${active === index ? "show" : ""}`}
-                        >
-                            <p>{faq.answer}</p>
-                        </div>
-
-                    </div>
-
-                ))}
-
-            </div>
-
-        </section>
-    );
+export default function FAQ() {
+    const id = useId();
+    return <section className="faq-section" id="faq" aria-labelledby="faq-title"><div className="faq-header"><span className="faq-tag">A little clarity</span><h2 id="faq-title">Good questions.<br />Straight answers.</h2><p>About learning, working together and taking the next step.</p></div><div className="faq-container">{faqs.map(([question, answer], index) => <details className="faq-item" key={question} name={id}><summary className="faq-question">{question}<span aria-hidden="true">+</span></summary><div className="faq-response"><p>{answer}</p>{index === 4 && <Link to="/terms#training">Before you enroll →</Link>}</div></details>)}</div></section>;
 }
-
-export default FAQ;

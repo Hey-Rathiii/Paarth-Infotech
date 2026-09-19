@@ -4,10 +4,11 @@ import {
     useCallback,
     useEffect,
     useRef,
-    useState
+    useState,
+    useSyncExternalStore
 } from "react";
 import { flushSync } from "react-dom";
-import { Navigate, Route, Routes } from "react-router-dom";
+import { Route, Routes } from "react-router-dom";
 import Lenis from "lenis";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
@@ -18,6 +19,8 @@ import Navbar from "./components/Navbar";
 import Footer from "./components/Footer";
 import PointerAura from "./components/PointerAura";
 import RouteScrollManager from "./components/RouteScrollManager";
+import RouteMeta from "./components/RouteMeta";
+import NotFoundPage from "./pages/NotFoundPage";
 import "./theme.css";
 
 gsap.registerPlugin(ScrollTrigger);
@@ -28,6 +31,10 @@ const ServicesPage = lazy(() => import("./pages/ServicesPage"));
 const PortfolioPage = lazy(() => import("./pages/PortfolioPage"));
 const TechnologiesPage = lazy(() => import("./pages/TechnologiesPage"));
 const AboutPage = lazy(() => import("./pages/AboutPage"));
+
+const CareersPage = lazy(() => import("./pages/CareersPage"));
+const CareerApplicationPage = lazy(() => import("./pages/CareerApplicationPage"));
+const InformationPage = lazy(() => import("./pages/InformationPage"));
 
 const getInitialTheme = () => {
     const documentTheme = document.documentElement.dataset.theme;
@@ -51,23 +58,24 @@ const getInitialTheme = () => {
         : "dark";
 };
 
-const initialTheme = getInitialTheme();
-document.documentElement.dataset.theme = initialTheme;
-document.documentElement.style.colorScheme = initialTheme;
+// Keep server HTML and the first hydration pass identical; then read the
+// preference already applied by index.html before the first paint.
+const subscribeToTheme = () => () => {};
+const getServerTheme = () => "dark";
 
 function App() {
-    const [theme, setTheme] = useState(initialTheme);
+    const preferredTheme = useSyncExternalStore(subscribeToTheme, getInitialTheme, getServerTheme);
+    const [selectedTheme, setTheme] = useState(null);
+    const theme = selectedTheme ?? preferredTheme;
     const themeTransitioningRef = useRef(false);
     const lenisRef = useRef(null);
 
     useEffect(() => {
         const lenis = new Lenis({
             lerp: 0.14,
-            smoothWheel: true,
+            smoothWheel: !window.matchMedia("(prefers-reduced-motion: reduce)").matches,
             syncTouch: false,
-            anchors: {
-                offset: -90,
-            },
+            anchors: false, // RouteScrollManager waits for lazy routes before scrolling.
             stopInertiaOnNavigate: true,
         });
         lenisRef.current = lenis;
@@ -209,6 +217,8 @@ function App() {
 
     return (
         <>
+            <RouteMeta />
+            <a className="skip-link" href="#main-content">Skip to content</a>
             <PointerAura />
             <RouteScrollManager lenisRef={lenisRef} />
             <Navbar
@@ -234,7 +244,11 @@ function App() {
                     <Route path="/portfolio" element={<PortfolioPage />} />
                     <Route path="/technologies" element={<TechnologiesPage />} />
                     <Route path="/about" element={<AboutPage />} />
-                    <Route path="*" element={<Navigate to="/" replace />} />
+                    <Route path="/careers" element={<CareersPage />} />
+                    <Route path="/careers/apply" element={<CareerApplicationPage />} />
+                    <Route path="/privacy" element={<InformationPage kind="privacy" />} />
+                    <Route path="/terms" element={<InformationPage kind="terms" />} />
+                    <Route path="*" element={<NotFoundPage />} />
                 </Routes>
             </Suspense>
             <Footer />

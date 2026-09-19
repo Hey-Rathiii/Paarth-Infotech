@@ -94,3 +94,9 @@
         font-size: 1rem;
     }
 }
+.faq-item summary { list-style: none; cursor: pointer; }
+.faq-item summary::-webkit-details-marker { display: none; }
+.faq-item summary > span { font-size: 24px; flex-shrink: 0; }
+.faq-item[open] summary > span { transform: rotate(45deg); }
+.faq-response { padding: 0 28px 25px; text-align: left; color: var(--theme-muted); font-size: 16px; line-height: 1.9; }
+.faq-response a { display: inline-block; color: var(--theme-accent); margin-top: 15px; }

@@ -42,7 +42,7 @@ const DEFAULT_EFFECT_OPTIONS = {
     }
 };
 
-const Hyperspeed = ({ effectOptions = DEFAULT_EFFECT_OPTIONS }) => {
+const Hyperspeed = ({ effectOptions = DEFAULT_EFFECT_OPTIONS, boosted = false }) => {
     const hyperspeed = useRef(null);
     const appRef = useRef(null);
 
@@ -439,13 +439,6 @@ const Hyperspeed = ({ effectOptions = DEFAULT_EFFECT_OPTIONS }) => {
                 this.tick = this.tick.bind(this);
                 this.init = this.init.bind(this);
                 this.setSize = this.setSize.bind(this);
-                this.onMouseDown = this.onMouseDown.bind(this);
-                this.onMouseUp = this.onMouseUp.bind(this);
-
-                this.onTouchStart = this.onTouchStart.bind(this);
-                this.onTouchEnd = this.onTouchEnd.bind(this);
-                this.onContextMenu = this.onContextMenu.bind(this);
-
                 this.onWindowResize = this.onWindowResize.bind(this);
                 this.onVisibilityChange = () => {
                     if (document.hidden) {
@@ -544,46 +537,15 @@ const Hyperspeed = ({ effectOptions = DEFAULT_EFFECT_OPTIONS }) => {
                 this.leftSticks.init();
                 this.leftSticks.mesh.position.setX(-(options.roadWidth + options.islandWidth / 2));
 
-                this.container.addEventListener('mousedown', this.onMouseDown);
-                this.container.addEventListener('mouseup', this.onMouseUp);
-                this.container.addEventListener('mouseout', this.onMouseUp);
-
-                this.container.addEventListener('touchstart', this.onTouchStart, { passive: true });
-                this.container.addEventListener('touchend', this.onTouchEnd, { passive: true });
-                this.container.addEventListener('touchcancel', this.onTouchEnd, { passive: true });
-
-                this.container.addEventListener('contextmenu', this.onContextMenu);
-
                 this.initialized = true;
                 this.startRendering();
             }
 
-            onMouseDown(ev) {
-                if (this.options.onSpeedUp) this.options.onSpeedUp(ev);
-                this.fovTarget = this.options.fovSpeedUp;
-                this.speedUpTarget = this.options.speedUp;
-            }
-
-            onMouseUp(ev) {
-                if (this.options.onSlowDown) this.options.onSlowDown(ev);
-                this.fovTarget = this.options.fov;
-                this.speedUpTarget = 0;
-            }
-
-            onTouchStart(ev) {
-                if (this.options.onSpeedUp) this.options.onSpeedUp(ev);
-                this.fovTarget = this.options.fovSpeedUp;
-                this.speedUpTarget = this.options.speedUp;
-            }
-
-            onTouchEnd(ev) {
-                if (this.options.onSlowDown) this.options.onSlowDown(ev);
-                this.fovTarget = this.options.fov;
-                this.speedUpTarget = 0;
-            }
-
-            onContextMenu(ev) {
-                ev.preventDefault();
+            setBoosted(active) {
+                this.fovTarget = active ? this.options.fovSpeedUp : this.options.fov;
+                this.speedUpTarget = active ? this.options.speedUp : 0;
+                if (active) this.options.onSpeedUp?.();
+                else this.options.onSlowDown?.();
             }
 
             update(delta) {
@@ -688,16 +650,6 @@ const Hyperspeed = ({ effectOptions = DEFAULT_EFFECT_OPTIONS }) => {
                 this.resizeObserver?.disconnect();
                 this.visibilityObserver?.disconnect();
                 window.removeEventListener('resize', this.onWindowResize);
-                if (this.container) {
-                    this.container.removeEventListener('mousedown', this.onMouseDown);
-                    this.container.removeEventListener('mouseup', this.onMouseUp);
-                    this.container.removeEventListener('mouseout', this.onMouseUp);
-
-                    this.container.removeEventListener('touchstart', this.onTouchStart);
-                    this.container.removeEventListener('touchend', this.onTouchEnd);
-                    this.container.removeEventListener('touchcancel', this.onTouchEnd);
-                    this.container.removeEventListener('contextmenu', this.onContextMenu);
-                }
             }
 
             setSize(width, height, updateStyles) {
@@ -1237,6 +1189,11 @@ const Hyperspeed = ({ effectOptions = DEFAULT_EFFECT_OPTIONS }) => {
             }
         };
     }, [effectOptions]);
+
+    // Update the running scene without recreating its WebGL renderer on every tap.
+    useEffect(() => {
+        appRef.current?.setBoosted(boosted);
+    }, [boosted, effectOptions]);
 
     return <div id="lights" ref={hyperspeed}></div>;
 };

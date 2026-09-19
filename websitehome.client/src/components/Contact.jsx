@@ -1,83 +1,24 @@
+import { ArrowUpRight, Mail, MessageSquare, Phone } from "lucide-react";
+import { company } from "../content/site";
+import InquiryForm from "./InquiryForm";
 import "./Contact.css";
 
-function Contact() {
+export default function Contact() {
     return (
-        <section className="contact-section" id="contact">
-
+        <section className="contact-section" id="contact" aria-labelledby="contact-title">
             <div className="contact-wrapper">
-
-                {/* FORM */}
-
-                <div className="contact-form-card">
-
-                    <span className="contact-tag">
-                        Contact Us
-                    </span>
-
-                    <h2>
-                        Let's Build Your
-                        <span> Future Together</span>
-                    </h2>
-
-                    <p>
-                        Have questions about our programs?
-                        Send us a message.
-                    </p>
-
-                    <form className="contact-form">
-
-                        <input
-                            type="text"
-                            placeholder="Your Name"
-                        />
-
-                        <input
-                            type="email"
-                            placeholder="Your Email"
-                        />
-
-                        <input
-                            type="tel"
-                            placeholder="Phone Number"
-                        />
-
-                        <select>
-                            <option>Select Technology</option>
-                            <option>ASP.NET Core</option>
-                            <option>Full Stack Development</option>
-                            <option>Dynamics 365</option>
-                            <option>Artificial Intelligence</option>
-                        </select>
-
-                        <textarea
-                            rows="5"
-                            placeholder="Your Message"
-                        />
-
-                        <button type="submit">
-                            Book Consultation
-                        </button>
-
-                    </form>
-
+                <div className="contact-intro">
+                    <span className="contact-tag">Start a conversation</span>
+                    <h2 id="contact-title">A useful next step<br /><span>starts here.</span></h2>
+                    <p>Exploring a training program or planning a software project? Tell us what you have in mind.</p>
+                    <a className="contact-email" href={`mailto:${company.email}`}><Mail size={20} aria-hidden="true" />{company.email}<ArrowUpRight size={18} aria-hidden="true" /></a>
+                    {company.phone && <a className="contact-email" href={`tel:${company.phone.replace(/[^+\d]/g, "")}`}><Phone size={18} aria-hidden="true" />{company.phone}</a>}
+                    {company.address && <p>{company.address}</p>}
+                    {company.mapUrl && <a className="contact-email" href={company.mapUrl} target="_blank" rel="noopener noreferrer">View location <ArrowUpRight size={18} aria-hidden="true" /></a>}
+                    <div className="contact-expectations"><MessageSquare size={24} aria-hidden="true" /><h3>Give the conversation a head start.</h3><p>For training, include your current experience and preferred program. For a project, include the problem, your priorities and any target timeline.</p><span>Prefer email? You can write to us directly.</span></div>
                 </div>
-
-                {/* MAP */}
-
-                <div className="contact-map-card">
-
-                    <iframe
-                        title="PH Solutions Location"
-                        src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d901.9433426499587!2d77.756166758771!3d29.001431481297907!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x390c7b3bf839de05%3A0xe1c4eb75918c33e!2sPaarth%20Institute%20of%20Education%20(PIE)!5e0!3m2!1sen!2sin!4v1781093904365!5m2!1sen!2sin"
-                        loading="lazy"
-                    />
-
-                </div>
-
+                <div className="contact-form-card"><h3>What are you working towards?</h3><InquiryForm /></div>
             </div>
-
         </section>
     );
 }
-
-export default Contact;

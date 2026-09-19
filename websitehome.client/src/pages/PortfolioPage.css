@@ -273,7 +273,7 @@
     top: 3%;
     right: 0;
     transform: rotate(9deg) translateZ(-70px);
-    opacity: .58;
+    opacity: .82;
 }
 
 .portfolio-hero__card--middle {
@@ -282,7 +282,7 @@
     right: 46%;
     bottom: 5%;
     transform: rotate(-8deg) translateZ(-15px);
-    opacity: .78;
+    opacity: .92;
 }
 
 .portfolio-hero__card--front {
@@ -677,7 +677,7 @@
 .portfolio-project__frame {
     overflow: hidden;
     position: relative;
-    aspect-ratio: 1.32;
+    aspect-ratio: 1.5;
     border: 1px solid rgba(255, 255, 255, .13);
     border-radius: clamp(22px, 2.2vw, 34px);
     background: #10151e;
@@ -717,8 +717,7 @@
     position: absolute;
     inset: 0;
     background:
-        linear-gradient(180deg, transparent 45%, rgba(4, 7, 12, .75) 100%),
-        linear-gradient(90deg, rgba(5, 8, 12, .13), transparent 55%);
+        linear-gradient(180deg, transparent 62%, rgba(4, 7, 12, .32) 100%);
 }
 
 .portfolio-project__watermark {
@@ -1193,7 +1192,7 @@
     }
 
     .portfolio-project__frame {
-        aspect-ratio: 1 / .9;
+        aspect-ratio: 1.4;
     }
 
     .portfolio-project__browser small {

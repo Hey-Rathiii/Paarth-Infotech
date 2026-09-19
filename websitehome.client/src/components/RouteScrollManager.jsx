@@ -2,94 +2,59 @@ import { useEffect, useRef } from "react";
 import { useLocation } from "react-router-dom";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 
-function RouteScrollManager({ lenisRef }) {
+export default function RouteScrollManager({ lenisRef }) {
     const { pathname, hash } = useLocation();
     const previousPathRef = useRef(null);
 
     useEffect(() => {
-        const previousRestoration = window.history.scrollRestoration;
+        const previous = window.history.scrollRestoration;
         window.history.scrollRestoration = "manual";
-
-        return () => {
-            window.history.scrollRestoration = previousRestoration;
-        };
+        return () => { window.history.scrollRestoration = previous; };
     }, []);
 
     useEffect(() => {
         const pathChanged = previousPathRef.current !== pathname;
         previousPathRef.current = pathname;
-        let firstFrame;
-        let secondFrame;
+        let frame;
         let refreshFrame;
-        let retryTimer;
+        let finished = false;
+        let targetId = hash.slice(1);
+        try { targetId = decodeURIComponent(targetId); } catch { /* Keep a malformed fragment literal. */ }
 
-        firstFrame = window.requestAnimationFrame(() => {
-            secondFrame = window.requestAnimationFrame(() => {
-                const scrollToRouteTarget = (attempt = 0) => {
-                    const lenis = lenisRef.current;
-                    let targetId = "";
-
-                    if (hash) {
-                        try {
-                            targetId = decodeURIComponent(hash.slice(1));
-                        } catch {
-                            targetId = hash.slice(1);
-                        }
-                    }
-
-                    const target = targetId
-                        ? document.getElementById(targetId)
-                        : null;
-
-                    if (hash && !target && attempt < 20) {
-                        retryTimer = window.setTimeout(
-                            () => scrollToRouteTarget(attempt + 1),
-                            50
-                        );
-                        return;
-                    }
-
-                    ScrollTrigger.refresh();
-
-                    if (target) {
-                        if (lenis) {
-                            lenis.scrollTo(target, {
-                                offset: -90,
-                                immediate: pathChanged,
-                                force: true
-                            });
-                        } else {
-                            target.scrollIntoView();
-                        }
-                    } else if (!hash || pathChanged) {
-                        if (lenis) {
-                            lenis.scrollTo(0, {
-                                immediate: true,
-                                force: true
-                            });
-                        } else {
-                            window.scrollTo(0, 0);
-                        }
-                    }
-
-                    refreshFrame = window.requestAnimationFrame(() => {
-                        ScrollTrigger.refresh();
-                    });
-                };
-
-                scrollToRouteTarget();
+        const scrollWhenReady = () => {
+            window.cancelAnimationFrame(frame);
+            frame = window.requestAnimationFrame(() => {
+                const main = document.getElementById("main-content");
+                // Wait for a lazy route to actually replace its loading screen.
+                if (finished || !main || !main.getClientRects().length) return;
+                const target = targetId ? document.getElementById(targetId) : null;
+                if (targetId && !target) return;
+                const lenis = lenisRef.current;
+                finished = true;
+                observer.disconnect();
+                ScrollTrigger.refresh();
+                // Refresh the scroll limit after a short page is replaced by a long one.
+                lenis?.resize();
+                if (target) {
+                    if (lenis) lenis.scrollTo(target, { offset: -90, immediate: pathChanged, force: true });
+                    else target.scrollIntoView();
+                } else if (!hash || pathChanged) {
+                    if (lenis) lenis.scrollTo(0, { immediate: true, force: true });
+                    else window.scrollTo(0, 0);
+                }
+                refreshFrame = window.requestAnimationFrame(() => ScrollTrigger.refresh());
             });
-        });
-
+        };
+        // Observe rendering instead of giving slow connections a one-second deadline.
+        const observer = new MutationObserver(scrollWhenReady);
+        observer.observe(document.getElementById("root"), { childList: true, subtree: true });
+        scrollWhenReady();
         return () => {
-            window.cancelAnimationFrame(firstFrame);
-            window.cancelAnimationFrame(secondFrame);
+            observer.disconnect();
+            window.cancelAnimationFrame(frame);
             window.cancelAnimationFrame(refreshFrame);
-            window.clearTimeout(retryTimer);
         };
     }, [hash, lenisRef, pathname]);
 
     return null;
 }
-
-export default RouteScrollManager;

@@ -127,13 +127,6 @@ body,
 :root[data-theme="light"] .tech-tag,
 :root[data-theme="light"] .tech-header span,
 :root[data-theme="light"] .program-tag,
-:root[data-theme="light"] .program-icon,
-:root[data-theme="light"] .program-level,
-:root[data-theme="light"] .program-flip-hint,
-:root[data-theme="light"] .program-back-label,
-:root[data-theme="light"] .program-project > span,
-:root[data-theme="light"] .program-outcomes > span,
-:root[data-theme="light"] .program-skills li span,
 :root[data-theme="light"] .testimonial-tag,
 :root[data-theme="light"] .student-role,
 :root[data-theme="light"] .stars,
@@ -144,7 +137,6 @@ body,
 }
 
 :root[data-theme="light"] .about-card,
-:root[data-theme="light"] .program-face,
 :root[data-theme="light"] .testimonial-card,
 :root[data-theme="light"] .faq-item,
 :root[data-theme="light"] .contact-form-card {
@@ -157,40 +149,6 @@ body,
 :root[data-theme="light"] .testimonial-card:hover {
     border-color: rgba(37,99,235,.30);
     box-shadow: 0 28px 60px rgba(37,99,235,.13);
-}
-
-:root[data-theme="light"] .program-card-shell:focus-within .program-face {
-    border-color: rgba(37,99,235,.30);
-    box-shadow: 0 28px 60px rgba(37,99,235,.13);
-}
-
-@media (hover: hover) and (pointer: fine) {
-    :root[data-theme="light"] .program-card-shell:hover .program-face {
-        border-color: rgba(37,99,235,.30);
-        box-shadow: 0 28px 60px rgba(37,99,235,.13);
-    }
-}
-
-:root[data-theme="light"] .program-face {
-    background:
-        radial-gradient(circle at 85% 10%, rgba(37,99,235,.11), transparent 34%),
-        linear-gradient(160deg, #ffffff 0%, #f7f9fd 100%);
-}
-
-:root[data-theme="light"] .program-card-back {
-    background:
-        radial-gradient(circle at 15% 10%, rgba(37,99,235,.16), transparent 38%),
-        linear-gradient(145deg, #edf4ff 0%, #ffffff 100%);
-}
-
-:root[data-theme="light"] .program-project {
-    border-color: rgba(37,99,235,.16);
-    background: rgba(219,234,254,.58);
-}
-
-:root[data-theme="light"] .program-face-footer,
-:root[data-theme="light"] .program-back-footer {
-    border-top-color: var(--theme-border);
 }
 
 :root[data-theme="light"] .about-btn-secondary {
@@ -218,8 +176,6 @@ body,
 }
 
 :root[data-theme="light"] .program-card li,
-:root[data-theme="light"] .program-project p,
-:root[data-theme="light"] .program-back-footer,
 :root[data-theme="light"] .company,
 :root[data-theme="light"] .testimonial-text,
 :root[data-theme="light"] .faq-answer p {
@@ -320,3 +276,23 @@ body,
         animation: none;
     }
 }
+/* Readable supporting content and keyboard navigation. */
+.skip-link { position: fixed; top: 10px; left: 15px; z-index: 2000; padding: 12px 20px; background: #fff; color: #081321; border-radius: 6px; transform: translateY(-160%); text-decoration: none; }
+.skip-link:focus { transform: translateY(0); }
+a:focus-visible, button:focus-visible, summary:focus-visible { outline: 3px solid #5d9fe9; outline-offset: 4px; }
+main:focus { outline: none; }
+.about-buttons a { text-decoration: none; }
+.about-card h3 { font-size: clamp(25px, 3vw, 39px); }
+.enrollment-note { width: min(1180px, 88%); margin: 40px auto; padding: 26px 30px; border: 1px solid var(--theme-border); background: var(--theme-surface); border-radius: 12px; text-align: left; }
+.enrollment-note strong { color: var(--theme-text); }
+.enrollment-note p { font-size: 14px; color: var(--theme-muted); line-height: 1.8; margin-top: 12px; }
+.enrollment-note a { display: inline-block; color: var(--theme-accent); font-size: 14px; margin-top: 16px; text-decoration: none; }
+.portfolio-project__outcomes dt { font-size: clamp(20px, 2.5vw, 36px); }
+.portfolio-project__float--status strong { font-size: 26px; }
+.testimonial-card { text-align: left; }
+.testimonial-card figcaption { margin-top: 25px; }
+.testimonial-card figcaption > p { font-size: 13px; line-height: 1.8; }
+.testimonial-card figcaption > a { display: inline-block; color: var(--theme-accent); margin-top: 16px; font-size: 13px; }
+@media (prefers-reduced-motion: reduce) { *, *::before, *::after { animation-duration: .01ms !important; animation-iteration-count: 1 !important; transition-duration: .01ms !important; scroll-behavior: auto !important; } }
+.services-overview-link { display: inline-flex; color: var(--theme-accent); text-decoration: none; font-size: 14px; margin-top: 24px; }
+.faq-question { text-align: left; gap: 18px; }

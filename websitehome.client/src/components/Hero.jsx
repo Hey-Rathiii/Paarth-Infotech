@@ -1,250 +1,103 @@
-﻿import React, { useLayoutEffect, useRef, useMemo, useState } from "react";
-import gsap from "gsap";
-import { ScrollTrigger } from "gsap/ScrollTrigger";
-import Hyperspeed from './Hyperspeed';
-import { getPreset, getPresetKeys } from './Hyperspeedpresets';
+import { lazy, Suspense, useEffect, useRef, useState, useSyncExternalStore } from "react";
+import { Link } from "react-router-dom";
+import { Pause, Play, Zap } from "lucide-react";
+import { getPreset, getPresetKeys } from "./Hyperspeedpresets";
 import RotatingText from "./RotatingText/RotatingText";
 import "./Hero.css";
 
-gsap.registerPlugin(ScrollTrigger);
+const Hyperspeed = lazy(() => import("./Hyperspeed"));
+const technologies = ["AI & ML", "Full Stack", "React", ".NET", "Python", "Cloud", "Dynamics 365", "Java", "Angular"];
+const presetKeys = getPresetKeys();
+const motionQuery = "(prefers-reduced-motion: no-preference)";
+const subscribe = (callback) => {
+    const query = window.matchMedia(motionQuery);
+    query.addEventListener("change", callback);
+    return () => query.removeEventListener("change", callback);
+};
+const getSnapshot = () => window.matchMedia(motionQuery).matches;
 
-const Hero = React.memo(function Hero() {
-    const titleRef = useRef(null);
-    const heroRef = useRef(null);
-    const [demoActive, setDemoActive] = useState(false);
-    const [currentPreset, setCurrentPreset] = useState('one');
+export default function Hero() {
+    const motionAllowed = useSyncExternalStore(subscribe, getSnapshot, () => false);
+    const [paused, setPaused] = useState(false);
+    const [presetsOpen, setPresetsOpen] = useState(false);
+    const [currentPreset, setCurrentPreset] = useState("one");
+    const [boosted, setBoosted] = useState(false);
+    const boostTimer = useRef(null);
+    const press = useRef(null);
+    const animationPlaying = motionAllowed && !paused;
 
-    // Memoize effectOptions to prevent unnecessary re-renders and WebGL scene recreations
-    // Using presets for easy switching between different Hyperspeed visual styles
-    const hyperspeedOptions = useMemo(
-        () => getPreset(currentPreset),
-        [currentPreset]
-    );
+    const resetBoost = () => {
+        window.clearTimeout(boostTimer.current);
+        press.current = null;
+        setBoosted(false);
+    };
 
-    useLayoutEffect(() => {
-        const ctx = gsap.context(() => {
-            const tl = gsap.timeline();
-
-            tl.fromTo(
-                ".hero-badge",
-                {
-                    y: 20,
-                    opacity: 0,
-                },
-                {
-                    y: 0,
-                    opacity: 1,
-                    duration: 0.8,
-                    ease: "power3.out",
-                }
-            )
-                .fromTo(
-                    ".hero-title",
-                    {
-                        y: 30,
-                        opacity: 0,
-                    },
-                    {
-                        y: 0,
-                        opacity: 1,
-                        duration: 1,
-                        ease: "power4.out",
-                    },
-                    "-=0.4"
-                )
-                .fromTo(
-                    ".hero-buttons",
-                    {
-                        y: 20,
-                        opacity: 0,
-                    },
-                    {
-                        y: 0,
-                        opacity: 1,
-                        duration: 0.8,
-                        ease: "power3.out",
-                    },
-                    "-=0.5"
-                );
-
-            // HERO SCROLL TIMELINE
-            gsap.timeline({
-                scrollTrigger: {
-                    trigger: heroRef.current,
-                    start: "top top",
-                    end: "+=150%",
-                    scrub: 1.5,
-                },
-            })
-                .to(
-                    ".hero-content",
-                    {
-                        y: -250,
-                        opacity: 0,
-                    },
-                    0
-                );
-
-            // PARTICLES
-            gsap.to(".hero-particles", {
-                yPercent: -20,
-                ease: "none",
-                scrollTrigger: {
-                    trigger: heroRef.current,
-                    start: "top top",
-                    end: "bottom top",
-                    scrub: true,
-                },
-            });
-        }, heroRef);
-
+    useEffect(() => {
+        const release = (event) => {
+            if (!press.current || event.pointerId !== press.current.id) return;
+            // A quick tap gets a brief burst; holding sustains the original speed effect.
+            const remaining = Math.max(0, 700 - (performance.now() - press.current.started));
+            press.current = null;
+            boostTimer.current = window.setTimeout(() => setBoosted(false), remaining);
+        };
+        const cancel = () => {
+            window.clearTimeout(boostTimer.current);
+            press.current = null;
+            setBoosted(false);
+        };
+        const visibilityChanged = () => { if (document.hidden) cancel(); };
+        window.addEventListener("pointerup", release);
+        window.addEventListener("pointercancel", cancel);
+        window.addEventListener("blur", cancel);
+        document.addEventListener("visibilitychange", visibilityChanged);
         return () => {
-            ctx.revert();
+            window.clearTimeout(boostTimer.current);
+            window.removeEventListener("pointerup", release);
+            window.removeEventListener("pointercancel", cancel);
+            window.removeEventListener("blur", cancel);
+            document.removeEventListener("visibilitychange", visibilityChanged);
         };
     }, []);
 
-    // Ensure click/touch events reach the canvas for speedup
-    useLayoutEffect(() => {
-        const hero = heroRef.current;
-        if (!hero) return;
+    const startPress = (event) => {
+        if (!animationPlaying || !event.isPrimary || event.button !== 0 ||
+            event.target.closest("a, button, input, select, textarea")) return;
+        window.clearTimeout(boostTimer.current);
+        press.current = { id: event.pointerId, started: performance.now() };
+        setBoosted(true);
+    };
 
-        const handlePointerDown = (e) => {
-            // Ignore clicks on buttons and interactive elements
-            if (e.target.closest('.hero-btn, .toggle-switch, .demo-toggle, .preset-selector')) {
-                return;
-            }
-
-            // Pass event to the hyperspeed canvas
-            const lightsCanvas = hero.querySelector('#lights');
-            if (lightsCanvas) {
-                const mouseEvent = new MouseEvent('mousedown', {
-                    bubbles: true,
-                    cancelable: true,
-                    view: window,
-                    clientX: e.clientX,
-                    clientY: e.clientY,
-                });
-                lightsCanvas.dispatchEvent(mouseEvent);
-            }
-        };
-
-        const handlePointerUp = (e) => {
-            const lightsCanvas = hero.querySelector('#lights');
-            if (lightsCanvas) {
-                const mouseEvent = new MouseEvent('mouseup', {
-                    bubbles: true,
-                    cancelable: true,
-                    view: window,
-                    clientX: e.clientX,
-                    clientY: e.clientY,
-                });
-                lightsCanvas.dispatchEvent(mouseEvent);
-            }
-        };
-
-        hero.addEventListener('pointerdown', handlePointerDown);
-        hero.addEventListener('pointerup', handlePointerUp);
-        hero.addEventListener('pointerleave', handlePointerUp);
-
-        return () => {
-            hero.removeEventListener('pointerdown', handlePointerDown);
-            hero.removeEventListener('pointerup', handlePointerUp);
-            hero.removeEventListener('pointerleave', handlePointerUp);
-        };
-    }, []);
+    const boostSpeed = () => {
+        window.clearTimeout(boostTimer.current);
+        setBoosted(true);
+        boostTimer.current = window.setTimeout(() => setBoosted(false), 900);
+    };
 
     return (
-        <section ref={heroRef} id="home" className="hero">
-            <div className="hero-background">
-                <Hyperspeed effectOptions={hyperspeedOptions} />
+        <section id="home" className="hero" aria-labelledby="home-title" onPointerDown={startPress}>
+            <div className="hero-background" aria-hidden="true">
+                <div className="hero-road-fallback" />
+                {animationPlaying && <Suspense fallback={null}><Hyperspeed effectOptions={getPreset(currentPreset)} boosted={boosted} /></Suspense>}
             </div>
-
-            <div className="hero-particles"></div>
-
+            <div className="hero-particles" aria-hidden="true" />
+            <div className="hero-shade" aria-hidden="true" />
             <div className="hero-content">
-                <div className="hero-badge">
-                    <span className="badge-new">NEW</span>
-                    <span className="badge-text">.NET • D365 • Cloud</span>
-                </div>
-
-                {/*<h1 ref={titleRef} className="hero-title">*/}
-                {/*    Your Vision.*/}
-                {/*    Our Technology.*/}
-                {/*    <br />*/}
-                {/*    <span className="hero-highlight">Infinite Possibilities</span>*/}
-                {/*</h1>*/}
-
-                <h1 ref={titleRef} className="hero-title">
-                    Your Vision.
-                    <br />
-                    Our Technology.
-                </h1>
-
+                <div className="hero-badge"><span className="hero-badge-new">NEW</span><span className="hero-badge-text">.NET · D365 · Cloud</span></div>
+                <h1 id="home-title" className="hero-title">Your Vision.<br />Our Technology.</h1>
                 <div className="hero-master-row">
-
-                    <span className="hero-prefix">
-                        Master
-                    </span>
-
-                    <RotatingText
-                        texts={[
-                            "AI & ML",
-                            "Full Stack",
-                            "React",
-                            ".NET",
-                            "Python",
-                            "Cloud",
-                            "Dynamics 365",
-                            "Java",
-                            "Angular"
-                        ]}
-                        interval={2500}
-                    />
-
+                    <span className="hero-prefix">Master</span>
+                    {animationPlaying ? <RotatingText texts={technologies} interval={2500} className="hero-technology" /> : <div className="rt-wrapper hero-technology"><span className="rt-word">AI &amp; ML</span></div>}
                 </div>
-
-                <div className="hero-buttons">
-                    <a href="#contact" className="hero-btn hero-btn-primary">
-                        Get started
-                    </a>
-
-                    <a href="#about" className="hero-btn hero-btn-secondary">
-                        Learn more
-                    </a>
-                </div>
+                <div className="hero-buttons"><Link to="/#contact" className="hero-btn hero-btn-primary">Get started</Link><Link to="/about" className="hero-btn hero-btn-secondary">Learn more</Link></div>
             </div>
-
-            <div className="demo-toggle">
-                <span className="demo-label">Change Presets</span>
-                <label className="toggle-switch">
-                    <input
-                        type="checkbox"
-                        checked={demoActive}
-                        onChange={(e) => setDemoActive(e.target.checked)}
-                    />
-                    <span className="toggle-slider"></span>
-                </label>
-            </div>
-
-            {/* Preset Selector - Only visible when demo is active */}
-            {demoActive && (
-                <div className="preset-selector">
-                    <span className="preset-label">Presets:</span>
-                    <div className="preset-buttons">
-                        {getPresetKeys().map((key) => (
-                            <button
-                                key={key}
-                                className={`preset-btn ${currentPreset === key ? 'active' : ''}`}
-                                onClick={() => setCurrentPreset(key)}
-                            >
-                                {key}
-                            </button>
-                        ))}
-                    </div>
-                </div>
-            )}
+            {motionAllowed && <div className="hero-controls">
+                <button type="button" className={`hero-boost${boosted && animationPlaying ? " is-boosting" : ""}`} onClick={boostSpeed} disabled={!animationPlaying} title="Tap for a speed burst, or hold the hero to keep accelerating"><Zap size={13} aria-hidden="true" />Boost speed</button>
+                <button type="button" className="hero-motion" onClick={() => { resetBoost(); setPaused((value) => !value); }} aria-label={paused ? "Play background animation" : "Pause background animation"} title={paused ? "Play animation" : "Pause animation"}>{paused ? <Play size={13} aria-hidden="true" /> : <Pause size={13} aria-hidden="true" />}</button>
+                <button type="button" className="hero-preset-toggle" aria-expanded={presetsOpen} aria-controls="hero-presets" onClick={() => setPresetsOpen((value) => !value)}>Change Presets<span className={`hero-toggle-track${presetsOpen ? " is-open" : ""}`} aria-hidden="true"><span /></span></button>
+                {presetsOpen && <div className="hero-presets" id="hero-presets" role="group" aria-label="Background presets">
+                    {presetKeys.map((key) => <button type="button" key={key} aria-pressed={currentPreset === key} onClick={() => { resetBoost(); setCurrentPreset(key); setPaused(false); }}>{key[0].toUpperCase() + key.slice(1)}</button>)}
+                </div>}
+            </div>}
         </section>
     );
-});
-
-export default Hero;
+}

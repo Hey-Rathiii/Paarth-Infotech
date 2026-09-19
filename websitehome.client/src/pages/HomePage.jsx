@@ -9,7 +9,7 @@ import Contact from "../components/Contact";
 
 function HomePage() {
     return (
-        <main>
+        <main id="main-content" tabIndex={-1}>
             <Hero />
             <About />
             <Services />

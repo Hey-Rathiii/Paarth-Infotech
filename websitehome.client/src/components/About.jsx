@@ -2,6 +2,8 @@
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import "./About.css";
+import { Link } from "react-router-dom";
+import { workplaceImage } from "../content/imagery";
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -10,6 +12,7 @@ function About() {
     const aboutRef = useRef(null);
 
     useLayoutEffect(() => {
+        if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return undefined;
 
         const ctx = gsap.context(() => {
 
@@ -63,33 +66,27 @@ function About() {
                     </span>
 
                     <h2 className="about-title">
-                        Empowering Future Professionals Through
-                        <span> Industry-Focused Learning</span>
+                        Learn by building.
+                        <span> Build with understanding.</span>
                     </h2>
 
                     <p className="about-text">
-                        At Paarth Infotech, we bridge the gap between academic
-                        learning and industry requirements by providing
-                        hands-on training, live projects, expert mentorship,
-                        and career-focused programs.
+                        For learners, our programs connect technical concepts to practical projects, code reviews and guided learning. The focus is on understanding what you build and being able to explain it.
                     </p>
 
                     <p className="about-text">
-                        Our mission is to help students and professionals
-                        gain practical experience in modern technologies
-                        including Full Stack Development, .NET, Cloud,
-                        Dynamics 365, Artificial Intelligence, and more.
+                        For businesses, we help turn requirements into web applications, cloud solutions and enterprise workflows. Explore the services and approach that fit your next project.
                     </p>
 
                     <div className="about-buttons">
 
-                        <button className="about-btn-primary">
-                            Explore Courses
-                        </button>
+                        <Link to="/programs" className="about-btn-primary">
+                            Explore programs
+                        </Link>
 
-                        <button className="about-btn-secondary">
-                            Learn More
-                        </button>
+                        <Link to="/about" className="about-btn-secondary">
+                            Our approach
+                        </Link>
 
                     </div>
 
@@ -97,24 +94,36 @@ function About() {
 
                 <div className="about-right">
 
+                    <figure className="about-workplace">
+                        <img
+                            src={workplaceImage}
+                            alt="Four colleagues collaborating at computers in a bright studio"
+                            width="1536"
+                            height="1024"
+                            loading="lazy"
+                            decoding="async"
+                        />
+                        <figcaption>AI-generated workplace illustration</figcaption>
+                    </figure>
+
                     <div className="about-card">
-                        <h3>10+</h3>
-                        <p>Students Trained</p>
+                        <h3>Learn</h3>
+                        <p>Practical training</p>
                     </div>
 
                     <div className="about-card">
-                        <h3>10+</h3>
-                        <p>Industry Projects</p>
+                        <h3>Build</h3>
+                        <p>Software development</p>
                     </div>
 
                     <div className="about-card">
-                        <h3>92%</h3>
-                        <p>Placement Support</p>
+                        <h3>Grow</h3>
+                        <p>Career preparation</p>
                     </div>
 
                     <div className="about-card">
-                        <h3>10+</h3>
-                        <p>Technology Domains</p>
+                        <h3>Connect</h3>
+                        <p>Direct conversations</p>
                     </div>
 
                 </div>

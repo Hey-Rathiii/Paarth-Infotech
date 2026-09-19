@@ -27,13 +27,16 @@
 .about-page__story-intro { margin: 34px 0 18px; color: var(--about-text) !important; font-size: 1.08rem !important; font-weight: 650; }
 .about-page__story-copy > p { color: var(--about-muted); font-size: .86rem; line-height: 1.8; }
 .about-page__story-copy > p + p { margin-top: 16px; }
-.about-page__collage { min-height: 630px; position: relative; }
-.about-page__collage figure { overflow: hidden; border: 1px solid var(--about-line); border-radius: 25px; background: #0a111c; box-shadow: 0 30px 80px rgba(0,0,0,.2); }
+.about-page__collage { min-height: 0; aspect-ratio: 1.18; position: relative; }
+.about-page__collage figure { margin: 0; overflow: hidden; border: 1px solid var(--about-line); border-radius: 25px; background: #0a111c; box-shadow: 0 30px 80px rgba(0,0,0,.2); }
 .about-page__collage img { width: 100%; height: 100%; display: block; object-fit: cover; will-change: transform; }
-.about-page__collage figcaption { position: absolute; right: 18px; bottom: 16px; padding: 8px 11px; border-radius: 999px; color: #fff; background: rgba(5,8,14,.72); font-size: .58rem; font-weight: 800; backdrop-filter: blur(10px); }
-.about-page__collage-main { width: 78%; height: 76%; position: absolute; top: 0; right: 0; }
-.about-page__collage-small { width: 47%; height: 42%; position: absolute; bottom: 0; left: 0; }
-.about-page__collage-note { position: absolute; right: 0; bottom: 4%; padding: 12px 16px; border: 1px solid var(--about-line); border-radius: 14px; color: var(--about-text); background: var(--about-surface); font-size: .65rem; font-weight: 800; transform: rotate(-3deg); }
+.about-page__collage figcaption { position: absolute; right: 12px; bottom: 12px; left: 12px; width: fit-content; margin-left: auto; padding: 7px 9px; border: 1px solid rgba(255,255,255,.14); border-radius: 5px; color: #e8f0f5; background: rgba(8,19,33,.9); font-size: 10px; font-weight: 400; line-height: 1.4; }
+.about-page__collage-main { width: 94%; height: auto; aspect-ratio: 3 / 2; position: absolute; top: 0; right: 0; }
+.about-page__collage-small { width: 62%; height: auto; aspect-ratio: 3 / 2; position: absolute; bottom: 0; left: 0; }
+/* Keep the complete mentoring scene visible while the surrounding figures reveal. */
+.about-page__collage-main img { transform: none !important; }
+.about-page__collage-main figcaption { top: 12px; bottom: auto; }
+.about-page__collage-note { position: absolute; right: 0; bottom: 3%; max-width: 34%; padding: 10px 12px; border: 1px solid var(--about-line); border-radius: 12px; color: var(--about-text); background: var(--about-surface); font-size: .62rem; line-height: 1.5; text-align: center; font-weight: 800; transform: rotate(-3deg); }
 
 .about-page__framework { padding: 140px 0; background: var(--about-alt); }
 .about-page__section-heading { margin-bottom: 60px; }
@@ -46,12 +49,13 @@
 .about-page__framework-grid h3 { margin: 90px 0 22px; font-size: clamp(1.35rem, 2vw, 1.8rem); line-height: 1.25; letter-spacing: -.035em; }
 .about-page__framework-grid p { color: var(--about-muted); font-size: .78rem; line-height: 1.7; }
 
-.about-page__people { display: grid; grid-template-columns: 1fr 1fr; min-height: 760px; background: #07101e; color: #fff; }
-.about-page__people-media { min-height: 650px; overflow: hidden; }
-.about-page__people-media img { width: 100%; height: 100%; display: block; object-fit: cover; will-change: transform; }
-.about-page__people-copy { display: flex; flex-direction: column; justify-content: center; padding: clamp(60px, 8vw, 130px); background: radial-gradient(circle at 80% 20%, rgba(69,126,255,.19), transparent 28%), #07101e; }
+.about-page__people { display: grid; grid-template-columns: 1.08fr 1fr; align-items: center; gap: clamp(36px, 5vw, 80px); padding: clamp(80px, 8vw, 120px) max(28px, calc((100% - 1240px) / 2)); background: radial-gradient(circle at 85% 20%, rgba(69,126,255,.16), transparent 36%), #07101e; color: #fff; }
+.about-page__people-media { position: relative; width: 100%; min-height: 0; aspect-ratio: 3 / 2; overflow: hidden; margin: 0; border: 1px solid #ffffff1a; border-radius: 24px; background: #102030; box-shadow: 0 24px 65px #0003; }
+.about-page__people-media img { position: absolute; inset: 0; width: 100%; height: 100%; display: block; object-fit: cover; object-position: 50% 50%; will-change: transform; }
+.about-page__people-media figcaption { position: absolute; right: 22px; bottom: 22px; left: 22px; width: fit-content; margin-left: auto; padding: 7px 10px; border: 1px solid rgba(255,255,255,.14); border-radius: 5px; color: #e8f0f5; background: rgba(8,19,33,.9); font-size: 10px; line-height: 1.4; }
+.about-page__people-copy { display: flex; flex-direction: column; justify-content: center; padding: 0; }
 .about-page__people-copy > svg { width: 46px; height: 46px; margin: 38px 0 8px; color: #6da5ff; }
-.about-page__people h2 { color: #fff; }
+.about-page__people h2 { color: #fff; font-size: clamp(2.4rem, 3.8vw, 4.2rem); }
 .about-page__people p { margin-top: 22px; color: rgba(255,255,255,.68); font-size: .85rem; line-height: 1.8; }
 .about-page__people a { width: fit-content; margin-top: 34px; color: #fff; }
 
@@ -92,8 +96,8 @@
     .about-page__story-grid, .about-page__method-grid { grid-template-columns: 1fr; }
     .about-page__framework-grid { grid-template-columns: 1fr; }
     .about-page__framework-grid article + article { border-left: 0; border-top: 1px solid var(--about-line); }
-    .about-page__people { grid-template-columns: 1fr; }
-    .about-page__people-media { min-height: 520px; }
+    .about-page__people { grid-template-columns: 1fr; gap: 42px; }
+    .about-page__people-media { max-width: 760px; justify-self: center; }
     .about-page__section-heading--split { align-items: flex-start; flex-direction: column; gap: 25px; }
 }
 
@@ -107,13 +111,18 @@
     .about-page__missions article { min-height: 210px; padding: 30px 0; }
     .about-page__missions article + article { padding-left: 0; border-top: 1px solid rgba(255,255,255,.13); border-left: 0; }
     .about-page__story, .about-page__framework, .about-page__principles, .about-page__method, .about-page__closing { padding: 95px 0; }
-    .about-page__collage { min-height: 460px; }
-    .about-page__collage-main { width: 88%; height: 72%; }
-    .about-page__collage-small { width: 58%; height: 39%; }
+    .about-page__collage { aspect-ratio: 1.1; }
+    .about-page__collage-main { width: 96%; }
+    .about-page__collage-small { width: 64%; }
+    .about-page__collage figure { border-radius: 16px; }
+    .about-page__collage figcaption { right: 8px; left: 8px; bottom: 8px; padding: 5px 7px; font-size: 9px; }
+    .about-page__collage-main figcaption { top: 8px; bottom: auto; }
     .about-page__framework-grid article { min-height: 320px; }
     .about-page__framework-grid h3 { margin-top: 60px; }
-    .about-page__people-media { min-height: 390px; }
-    .about-page__people-copy { padding: 75px 24px; }
+    .about-page__people { padding: 70px 20px; gap: 35px; }
+    .about-page__people-media { border-radius: 16px; }
+    .about-page__people-media figcaption { right: 10px; bottom: 10px; left: 10px; padding: 6px 8px; font-size: 9px; }
+    .about-page__people-copy { padding: 0; }
     .about-page__principles-grid { grid-template-columns: 1fr; }
     .about-page__principles-grid article { min-height: 290px; }
     .about-page__principles-grid h3 { margin-top: 65px; }

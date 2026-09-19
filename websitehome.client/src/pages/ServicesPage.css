@@ -943,6 +943,44 @@
     filter: saturate(0.88) contrast(1.08);
 }
 
+/* Keep complete screens and faces visible in the editorial photographs. */
+.services-page-capability-visual.has-image {
+    align-self: center;
+    min-height: 0;
+    aspect-ratio: 3 / 2;
+    margin: 24px;
+    border: 1px solid var(--services-line);
+    border-radius: 18px;
+}
+
+.services-page-capability-visual.has-image .services-page-capability-image {
+    inset: 0;
+    height: 100%;
+    filter: none;
+    transform: none !important;
+}
+
+.services-page-capability-visual.has-image .services-page-visual-shade {
+    background: linear-gradient(180deg, transparent 58%, rgba(3, 7, 18, .6));
+}
+
+.services-page-capability-visual.has-image .services-page-visual-label {
+    right: 14px;
+    bottom: 14px;
+    left: 14px;
+}
+
+.services-page-capability-visual.has-image .services-page-visual-label span {
+    font-size: 10px;
+    font-weight: 500;
+    letter-spacing: .01em;
+    text-transform: none;
+}
+
+.services-page-capability-visual.has-image .services-page-visual-label strong {
+    font-size: 2rem;
+}
+
 .services-page-capability-visual.is-abstract {
     display: grid;
     place-items: center;

@@ -1,34 +1,7 @@
-import "./Logo.css";
 import { Link } from "react-router-dom";
+import { company } from "../content/site";
+import "./Logo.css";
 
-function Logo() {
-    return (
-        <Link to="/" className="pi-logo">
-
-            <div className="pi-icon">
-
-                <div className="pi-dot"></div>
-
-                <span className="pi-text">
-                    PI
-                </span>
-
-            </div>
-
-            <div className="pi-brand">
-
-                <span className="pi-title">
-                    Paarth
-                </span>
-
-                <span className="pi-subtitle">
-                    INFOTECH
-                </span>
-
-            </div>
-
-        </Link>
-    );
+export default function Logo() {
+    return <Link to="/" className="pi-logo" aria-label={`${company.name} home`}><span className="brand-mark"><img src="/brand/paarth-mark.png" width="84" height="56" alt="" /></span><span className="brand-word"><strong>Paarth</strong><span>INFOTECH</span></span></Link>;
 }
-
-export default Logo;

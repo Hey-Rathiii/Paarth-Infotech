@@ -2,7 +2,6 @@ import { useEffect, useRef, useState } from "react";
 import { Link, NavLink, useLocation } from "react-router-dom";
 import {
     FaArrowRight,
-    FaChevronDown,
     FaMoon,
     FaSun,
     FaTimes
@@ -14,15 +13,17 @@ const mobileLinks = [
     { to: "/", label: "Home", route: true, end: true },
     { to: "/programs", label: "Programs", route: true },
     { to: "/services", label: "Services", route: true },
-    { to: "/portfolio", label: "Our Work", route: true },
+    { to: "/portfolio", label: "Projects", route: true },
     { to: "/technologies", label: "Technologies", route: true },
     { to: "/about", label: "About", route: true },
+    { to: "/careers", label: "Careers", route: true },
     { to: "/#contact", label: "Contact" }
 ];
 
 function Navbar({ theme, onToggleTheme, onMobileMenuChange }) {
     const { pathname } = useLocation();
     const [scrolled, setScrolled] = useState(false);
+    const [hidden, setHidden] = useState(false);
     const [mobileOpen, setMobileOpen] = useState(false);
     const mobileLayerRef = useRef(null);
     const mobileDrawerRef = useRef(null);
@@ -30,18 +31,47 @@ function Navbar({ theme, onToggleTheme, onMobileMenuChange }) {
     const mobileCloseRef = useRef(null);
 
     useEffect(() => {
+        let previousY = window.scrollY;
+        let direction = 0;
+        let distance = 0;
         const handleScroll = () => {
-            setScrolled(window.scrollY > 80);
+            // Clamp elastic overscroll so it cannot reverse the detected direction.
+            const maxY = Math.max(0, document.documentElement.scrollHeight - window.innerHeight);
+            const currentY = Math.max(0, Math.min(window.scrollY, maxY));
+            const delta = currentY - previousY;
+            setScrolled(currentY > 80);
+
+            if (currentY <= 82) {
+                setHidden(false);
+                distance = 0;
+            } else if (delta !== 0) {
+                const nextDirection = Math.sign(delta);
+                if (nextDirection !== direction) distance = 0;
+                direction = nextDirection;
+                distance += Math.abs(delta);
+                // Ignore small wheel/touch movements and the tail of smooth scrolling.
+                if (distance >= 12) {
+                    setHidden(direction > 0);
+                    distance = 0;
+                }
+            }
+            previousY = currentY;
         };
 
-        handleScroll();
+        const frame = window.requestAnimationFrame(() => {
+            handleScroll();
+            setHidden(false);
+        });
         window.addEventListener("scroll", handleScroll, { passive: true });
 
-        return () => window.removeEventListener("scroll", handleScroll);
-    }, []);
+        return () => {
+            window.cancelAnimationFrame(frame);
+            window.removeEventListener("scroll", handleScroll);
+        };
+    }, [pathname]);
 
     useEffect(() => {
-        const desktopQuery = window.matchMedia("(min-width: 993px)");
+        const desktopQuery = window.matchMedia("(min-width: 1101px)");
         const closeOnDesktop = (event) => {
             if (event.matches) setMobileOpen(false);
         };
@@ -110,7 +140,7 @@ function Navbar({ theme, onToggleTheme, onMobileMenuChange }) {
             document.body.style.overflow = previousOverflow;
             onMobileMenuChange?.(false);
 
-            if (window.matchMedia("(max-width: 992px)").matches) {
+            if (window.matchMedia("(max-width: 1100px)").matches) {
                 toggleElement?.focus();
             }
         };
@@ -123,9 +153,8 @@ function Navbar({ theme, onToggleTheme, onMobileMenuChange }) {
             className={[
                 "navbar",
                 scrolled ? "navbar-scrolled" : "",
-                ["/services", "/portfolio"].includes(pathname) && theme === "light"
-                    ? "navbar-light-surface"
-                    : "",
+                pathname === "/" && !scrolled ? "navbar-over-hero" : "",
+                hidden && !mobileOpen ? "navbar-hidden" : "",
                 mobileOpen ? "navbar-menu-open" : ""
             ].filter(Boolean).join(" ")}
         >
@@ -134,106 +163,12 @@ function Navbar({ theme, onToggleTheme, onMobileMenuChange }) {
             </div>
 
             <nav className="desktop-nav" aria-label="Primary navigation">
-                <NavLink
-                    to="/"
-                    end
-                    className={({ isActive }) => isActive ? "active" : ""}
-                >
-                    Home
-                </NavLink>
-
-                <div className="nav-item">
-                    <NavLink
-                        to="/programs"
-                        className={({ isActive }) =>
-                            `nav-section-link ${isActive ? "active" : ""}`
-                        }
-                        aria-haspopup="true"
-                    >
-                        Programs
-                        <FaChevronDown />
-                    </NavLink>
-
-                    <div className="mega-menu">
-                        <Link to="/programs#dotnet">ASP.NET Core</Link>
-                        <Link to="/programs#full-stack">
-                            Full Stack Development
-                        </Link>
-                        <Link to="/programs#dynamics-365">Dynamics 365</Link>
-                        <Link to="/programs#ai-copilot">
-                            Artificial Intelligence
-                        </Link>
-                    </div>
-                </div>
-
-                <NavLink
-                    to="/portfolio"
-                    className={({ isActive }) => isActive ? "active" : ""}
-                >
-                    Our Work
-                </NavLink>
-
-                <div className="nav-item">
-                    <NavLink
-                        to="/services"
-                        className={({ isActive }) =>
-                            `nav-section-link ${isActive ? "active" : ""}`
-                        }
-                        aria-haspopup="true"
-                    >
-                        Services
-                        <FaChevronDown />
-                    </NavLink>
-
-                    <div className="mega-menu">
-                        <Link to="/services#software">
-                            Custom Software
-                        </Link>
-                        <Link to="/services#product">
-                            Product Engineering
-                        </Link>
-                        <Link to="/services#cloud">Azure Cloud & DevOps</Link>
-                        <Link to="/services#ai">AI & Automation</Link>
-                        <Link to="/services#dynamics">Dynamics 365</Link>
-                        <Link to="/services#enablement">
-                            Training & Career Enablement
-                        </Link>
-                    </div>
-                </div>
-
-                <div className="nav-item">
-                    <NavLink
-                        to="/technologies"
-                        className={({ isActive }) =>
-                            `nav-section-link ${isActive ? "active" : ""}`
-                        }
-                        aria-haspopup="true"
-                    >
-                        Technologies
-                        <FaChevronDown />
-                    </NavLink>
-
-                    <div className="mega-menu">
-                        <Link to="/technologies#technology-directory">React</Link>
-                        <Link to="/technologies#technology-directory">Azure</Link>
-                        <Link to="/technologies#technology-directory">SQL Server</Link>
-                        <Link to="/technologies#technology-directory">Power Platform</Link>
-                        <Link to="/technologies#technology-directory">AI & RAG</Link>
-                    </div>
-                </div>
-
-                <NavLink
-                    to="/about"
-                    className={({ isActive }) => isActive ? "active" : ""}
-                >
-                    About
-                </NavLink>
-                <Link to="/#contact">Contact</Link>
+                {mobileLinks.filter((link) => link.route && link.to !== "/").map((link) => <NavLink key={link.to} to={link.to} className={({ isActive }) => isActive ? "active" : ""}>{link.label}</NavLink>)}
             </nav>
 
             <div className="navbar-actions">
                 <Link to="/#contact" className="nav-cta">
-                    Book Consultation
+                    Let’s talk
                 </Link>
 
                 <button
@@ -382,7 +317,7 @@ function Navbar({ theme, onToggleTheme, onMobileMenuChange }) {
                             className="mobile-drawer-cta"
                             onClick={closeMobileMenu}
                         >
-                            <span>Book Consultation</span>
+                            <span>Let’s talk</span>
                             <FaArrowRight aria-hidden="true" />
                         </Link>
                     </div>

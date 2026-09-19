@@ -2,152 +2,28 @@ import { useEffect, useLayoutEffect, useRef } from "react";
 import { Link } from "react-router-dom";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
-import {
-    ArrowDownRight,
-    ArrowRight,
-    Braces,
-    Cloud,
-    Code2,
-    Database,
-    GraduationCap,
-    Layers3,
-    Sparkles,
-    Workflow
-} from "lucide-react";
+import { ArrowDownRight, ArrowRight, Layers3 } from "lucide-react";
+import { projects, smallerProjects } from "../content/projects";
 
-import projectsImage from "../images/projects.png";
-import fullStackImage from "../images/fullstack.png";
-import cloudImage from "../images/cloud.png";
-import aiImage from "../images/Ai.png";
-import aspNetImage from "../images/asp.net.png";
+import {
+    taskflowImage,
+    cloudProjectImage,
+    assistantProjectImage
+} from "../content/imagery";
 import "./PortfolioPage.css";
 
 gsap.registerPlugin(ScrollTrigger);
-
-const projects = [
-    {
-        number: "01",
-        eyebrow: "Education platform",
-        title: "Orbis Campus OS",
-        description:
-            "A connected student operations platform that brings admissions, learning, attendance and placement workflows into one clear experience.",
-        image: projectsImage,
-        imageAlt:
-            "Development workspace representing the Orbis Campus OS platform",
-        accent: "blue",
-        direction: "normal",
-        tags: ["ASP.NET Core", "React", "SQL Server", "Azure"],
-        outcomes: [
-            ["05", "role-based workspaces"],
-            ["18", "connected workflows"]
-        ],
-        cardLabel: "Live operations",
-        cardValue: "99.98%",
-        Icon: Database
-    },
-    {
-        number: "02",
-        eyebrow: "Project learning platform",
-        title: "Northstar Learning Lab",
-        description:
-            "An immersive learning environment where students move from guided foundations to reviewed, portfolio-ready product builds.",
-        image: fullStackImage,
-        imageAlt:
-            "Illuminated pathways representing the Northstar project-learning journey",
-        accent: "violet",
-        direction: "reverse",
-        tags: ["React", "Learning Paths", "Mentor Reviews", "Analytics"],
-        outcomes: [
-            ["04", "career pathways"],
-            ["12", "project milestones"]
-        ],
-        cardLabel: "Completion lift",
-        cardValue: "+42%",
-        Icon: GraduationCap
-    },
-    {
-        number: "03",
-        eyebrow: "Cloud operations",
-        title: "Nimbus Control",
-        description:
-            "A cloud command centre that gives delivery teams one calm view of deployments, environment health, incidents and cost signals.",
-        image: cloudImage,
-        imageAlt:
-            "Cloud network representing the Nimbus cloud operations platform",
-        accent: "cyan",
-        direction: "normal",
-        tags: ["Azure", "DevOps", "Observability", "Automation"],
-        outcomes: [
-            ["09", "cloud environments"],
-            ["31%", "faster releases"]
-        ],
-        cardLabel: "Systems healthy",
-        cardValue: "24/24",
-        Icon: Cloud
-    },
-    {
-        number: "04",
-        eyebrow: "AI learning assistant",
-        title: "AURA Mentor",
-        description:
-            "A context-aware learning companion that turns questions into useful next steps while keeping mentors in control of the learning journey.",
-        image: aiImage,
-        imageAlt:
-            "Artificial intelligence interface representing the AURA mentor assistant",
-        accent: "magenta",
-        direction: "reverse",
-        tags: ["Azure AI", "Copilot", "RAG", "Responsible AI"],
-        outcomes: [
-            ["24/7", "guided support"],
-            ["3.4x", "faster answers"]
-        ],
-        cardLabel: "Learner confidence",
-        cardValue: "92%",
-        Icon: Sparkles
-    }
-];
-
-const smallerProjects = [
-    {
-        Icon: Code2,
-        type: "Enterprise portal",
-        title: "Pulse Workflow",
-        copy: "A role-based operations hub for approvals, reporting and team visibility.",
-        image: aspNetImage,
-        className: "portfolio-more-card--wide"
-    },
-    {
-        Icon: Workflow,
-        type: "Automation system",
-        title: "Flowline",
-        copy: "Connected business processes that remove repetitive hand-offs.",
-        image: cloudImage,
-        className: ""
-    },
-    {
-        Icon: Braces,
-        type: "Student product build",
-        title: "Project Foundry",
-        copy: "A guided build space for turning technical learning into proof.",
-        image: projectsImage,
-        className: ""
-    }
-];
 
 function PortfolioPage() {
     const pageRef = useRef(null);
 
     useEffect(() => {
-        const previousTitle = document.title;
-        document.title = "Our Work | Paarth Infotech";
-
         const refreshFrame = window.requestAnimationFrame(() => {
             ScrollTrigger.refresh();
         });
 
         return () => {
             window.cancelAnimationFrame(refreshFrame);
-            document.title = previousTitle;
         };
     }, []);
 
@@ -358,7 +234,7 @@ function PortfolioPage() {
     }, []);
 
     return (
-        <main className="portfolio-page" ref={pageRef}>
+        <main id="main-content" tabIndex={-1} className="portfolio-page" ref={pageRef}>
             <section
                 className="portfolio-hero"
                 aria-labelledby="portfolio-page-title"
@@ -370,30 +246,28 @@ function PortfolioPage() {
                     <div className="portfolio-hero__copy">
                         <span className="portfolio-hero__eyebrow">
                             <i aria-hidden="true" />
-                            Selected work / 2026
+                            Project concepts / Paarth Infotech
                         </span>
 
                         <h1 id="portfolio-page-title">
                             <span className="portfolio-hero__title-line">
-                                <span>Digital work</span>
+                                <span>Ideas for</span>
                             </span>
                             <span className="portfolio-hero__title-line">
-                                <span>built to make</span>
+                                <span>what we can</span>
                             </span>
                             <span className="portfolio-hero__title-line portfolio-hero__title-line--accent">
-                                <span>a real difference.</span>
+                                <span>build together.</span>
                             </span>
                         </h1>
 
                         <p className="portfolio-hero__summary">
-                            We turn complex ideas into useful digital products,
-                            combining thoughtful design, modern engineering and
-                            practical outcomes.
+                            Explore illustrative project concepts across education, cloud operations and enterprise software. These examples describe possible approaches, not delivered client work.
                         </p>
 
                         <div className="portfolio-hero__actions">
                             <a href="#featured-work">
-                                Explore our work
+                                Explore the concepts
                                 <ArrowDownRight aria-hidden="true" />
                             </a>
                             <Link to="/#contact">Start a project</Link>
@@ -405,24 +279,24 @@ function PortfolioPage() {
                         aria-hidden="true"
                     >
                         <div className="portfolio-hero__card portfolio-hero__card--back">
-                            <img src={cloudImage} alt="" />
-                            <span>Cloud systems</span>
+                            <img src={cloudProjectImage} alt="" width="1536" height="1024" decoding="async" />
+                            <span>Cloud operations</span>
                         </div>
                         <div className="portfolio-hero__card portfolio-hero__card--middle">
-                            <img src={aiImage} alt="" />
-                            <span>Intelligent products</span>
+                            <img src={assistantProjectImage} alt="" width="1536" height="1024" decoding="async" />
+                            <span>Learning assistant</span>
                         </div>
                         <div className="portfolio-hero__card portfolio-hero__card--front">
                             <div className="portfolio-hero__window-bar">
                                 <i />
                                 <i />
                                 <i />
-                                <span>paarth / selected-work</span>
+                                <span>paarth / concept-studio</span>
                             </div>
-                            <img src={projectsImage} alt="" />
+                            <img src={taskflowImage} alt="" width="1536" height="1024" decoding="async" fetchPriority="high" />
                             <div className="portfolio-hero__card-label">
-                                <span>Featured build</span>
-                                <strong>Systems that perform.</strong>
+                                <span>Featured concept</span>
+                                <strong>TaskFlow · Team task board</strong>
                             </div>
                         </div>
                     </div>
@@ -444,17 +318,14 @@ function PortfolioPage() {
                     </p>
                     <div data-portfolio-reveal>
                         <h2>
-                            Not just polished screens.
-                            <span>Products people can use, trust and grow.</span>
+                            A problem. A direction.
+                            <span>A possible product.</span>
                         </h2>
                         <p>
-                            Each example below shows how we connect a real need
-                            to a clear experience and a dependable technical
-                            foundation.
+                            Each concept connects a common challenge to a proposed experience and technology stack. AI-generated concept visuals bring these ideas to life; they are not screenshots of delivered products.
                         </p>
                         <span className="portfolio-intro__note">
-                            Demo case studies — replace with your client work
-                            when ready.
+                            Concept projects · No client delivery or measured results are claimed.
                         </span>
                     </div>
                 </div>
@@ -466,9 +337,9 @@ function PortfolioPage() {
                 aria-labelledby="featured-work-title"
             >
                 <div className="portfolio-shell portfolio-projects__heading">
-                    <span data-portfolio-reveal>Featured case studies</span>
+                    <span data-portfolio-reveal>Illustrative concepts</span>
                     <h2 id="featured-work-title" data-portfolio-reveal>
-                        A closer look at the work.
+                        A closer look at the possibilities.
                     </h2>
                 </div>
 
@@ -540,7 +411,7 @@ function PortfolioPage() {
                                             <span />
                                             <span />
                                             <small>
-                                                Demo case study / {project.number}
+                                                Concept project / {project.number}
                                             </small>
                                         </div>
                                         <div className="portfolio-project__media">
@@ -548,6 +419,8 @@ function PortfolioPage() {
                                                 className="portfolio-project__image"
                                                 src={project.image}
                                                 alt={project.imageAlt}
+                                                width="1536"
+                                                height="1024"
                                                 loading="lazy"
                                                 decoding="async"
                                             />
@@ -569,7 +442,7 @@ function PortfolioPage() {
                                     <div className="portfolio-project__float portfolio-project__float--build">
                                         <Layers3 aria-hidden="true" />
                                         <span>
-                                            <small>Built as one system</small>
+                                            <small>Proposed approach</small>
                                             <strong>Design + Engineering</strong>
                                         </span>
                                     </div>
@@ -591,7 +464,7 @@ function PortfolioPage() {
                     >
                         <span>More from the studio</span>
                         <h2 id="portfolio-more-title">
-                            Every build starts with a useful problem.
+                            Every idea starts with a useful problem.
                         </h2>
                     </div>
 
@@ -605,10 +478,17 @@ function PortfolioPage() {
                                     data-portfolio-reveal
                                     key={project.title}
                                 >
-                                    <img src={project.image} alt="" />
+                                    <img
+                                        src={project.image}
+                                        alt={project.imageAlt}
+                                        width="1536"
+                                        height="1024"
+                                        loading="lazy"
+                                        decoding="async"
+                                    />
                                     <div className="portfolio-more-card__shade" />
                                     <div className="portfolio-more-card__top">
-                                        <span>Concept build</span>
+                                        <span>Project concept</span>
                                         <Icon aria-hidden="true" />
                                     </div>
                                     <div className="portfolio-more-card__copy">

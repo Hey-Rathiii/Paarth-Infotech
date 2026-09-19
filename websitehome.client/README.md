@@ -1,16 +1,32 @@
-# React + Vite
+# Paarth Infotech website
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+React and Vite website for software services, training programs and careers.
 
-Currently, two official plugins are available:
+Start with [CONTENT_GUIDE.md](CONTENT_GUIDE.md) to replace business details,
+add real team profiles and testimonials, publish vacancies, and update projects.
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
+## Local development
 
-## React Compiler
+```sh
+npm install
+npm run dev
+```
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+The existing development configuration uses the ASP.NET HTTPS certificate.
+For a local HTTP session without changing that configuration:
 
-## Expanding the ESLint configuration
+```sh
+npm run dev -- --mode production --host 127.0.0.1 --port 4173
+```
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+## Verification
+
+```sh
+npm run lint
+npm test
+npm run build
+```
+
+Forms prepare email drafts for visitors to review and send in their own email
+application. They do not automatically submit to a server. See the content guide
+for delivery behavior and the details to confirm before publishing.

@@ -1,4 +1,4 @@
-import { useEffect, useLayoutEffect, useRef } from "react";
+import { useLayoutEffect, useRef } from "react";
 import { Link } from "react-router-dom";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
@@ -12,10 +12,9 @@ import {
     ShieldCheck,
     UsersRound
 } from "lucide-react";
-import careerImage from "../images/career.png";
-import projectsImage from "../images/projects.png";
-import fullStackImage from "../images/fullstack.png";
+import { workplaceImage, mentoringImage, taskflowImage } from "../content/imagery";
 import "./AboutPage.css";
+import Team from "../components/Team";
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -55,12 +54,6 @@ const workingSteps = [
 
 function AboutPage() {
     const pageRef = useRef(null);
-
-    useEffect(() => {
-        const previousTitle = document.title;
-        document.title = "About Paarth Infotech";
-        return () => { document.title = previousTitle; };
-    }, []);
 
     useLayoutEffect(() => {
         const media = gsap.matchMedia();
@@ -173,7 +166,7 @@ function AboutPage() {
     }, []);
 
     return (
-        <main className="about-page" ref={pageRef}>
+        <main id="main-content" tabIndex={-1} className="about-page" ref={pageRef}>
             <section className="about-page__hero" aria-labelledby="about-title">
                 <div className="about-page__hero-grid" aria-hidden="true" />
                 <div className="about-page__shell about-page__hero-inner">
@@ -197,9 +190,9 @@ function AboutPage() {
                         <p>Paarth Infotech brings software education and product development into one practice. Learners work with realistic requirements, complete applications and direct feedback. Businesses get thoughtful engineering with clear communication and maintainable foundations.</p>
                         <p>That combination keeps our teaching connected to current delivery work—and keeps our delivery process curious, explainable and human.</p>
                     </div>
-                    <div className="about-page__collage" aria-label="Learning and product development at Paarth Infotech">
-                        <figure className="about-page__collage-main"><img src={projectsImage} alt="A development workspace representing practical project work" /><figcaption>Build what you can explain.</figcaption></figure>
-                        <figure className="about-page__collage-small"><img src={careerImage} alt="A career pathway representing guided technical growth" /><figcaption>Progress with direction.</figcaption></figure>
+                    <div className="about-page__collage" aria-label="Illustrations of learning and product development">
+                        <figure className="about-page__collage-main"><img src={mentoringImage} alt="Two colleagues discussing a project at a laptop" width="1536" height="1024" loading="lazy" decoding="async" /><figcaption>AI-generated mentoring illustration</figcaption></figure>
+                        <figure className="about-page__collage-small"><img src={taskflowImage} alt="A laptop displaying a simple task-board project concept" width="1536" height="1024" loading="lazy" decoding="async" /><figcaption>AI-generated project concept</figcaption></figure>
                         <span className="about-page__collage-note">Learning ↔ Delivery</span>
                     </div>
                 </div>
@@ -217,7 +210,7 @@ function AboutPage() {
             </section>
 
             <section className="about-page__people">
-                <div className="about-page__people-media"><img src={fullStackImage} alt="Connected layers representing collaborative full-stack product work" /></div>
+                <figure className="about-page__people-media"><img src={workplaceImage} alt="Colleagues sharing ideas and working together at computers" width="1536" height="1024" loading="lazy" decoding="async" /><figcaption>AI-generated workplace illustration</figcaption></figure>
                 <div className="about-page__people-copy">
                     <span className="about-page__section-label">People before platforms</span>
                     <UsersRound aria-hidden="true" />
@@ -227,6 +220,8 @@ function AboutPage() {
                     <Link to="/#contact">Start a conversation <ArrowRight aria-hidden="true" /></Link>
                 </div>
             </section>
+
+            <Team />
 
             <section className="about-page__principles" aria-labelledby="principles-title">
                 <div className="about-page__shell">

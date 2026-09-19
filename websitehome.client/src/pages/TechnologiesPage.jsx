@@ -1,4 +1,4 @@
-import { useEffect, useLayoutEffect, useMemo, useRef, useState } from "react";
+import { useLayoutEffect, useMemo, useRef, useState } from "react";
 import { Link } from "react-router-dom";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
@@ -154,12 +154,6 @@ function TechnologiesPage() {
         [activeCategory]
     );
 
-    useEffect(() => {
-        const previousTitle = document.title;
-        document.title = "Technologies & Learning Difficulty | Paarth Infotech";
-        return () => { document.title = previousTitle; };
-    }, []);
-
     useLayoutEffect(() => {
         const media = gsap.matchMedia();
         const context = gsap.context(() => {
@@ -235,7 +229,7 @@ function TechnologiesPage() {
     }, [activeCategory]);
 
     return (
-        <main className="technologies-page" ref={pageRef}>
+        <main id="main-content" tabIndex={-1} className="technologies-page" ref={pageRef}>
             <section className="technologies-page__hero">
                 <div className="technologies-page__hero-grid" aria-hidden="true" />
                 <div className="technologies-page__shell technologies-page__hero-inner">

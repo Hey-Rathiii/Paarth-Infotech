@@ -3,12 +3,13 @@ import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 
 import "./Services.css";
-import aspNetImage from "../images/asp.net.png";
-import fullStackImage from "../images/fullstack.png";
-import cloudImage from "../images/cloud.png";
-import projectsImage from "../images/projects.png";
-import aiImage from "../images/Ai.png";
-import careerImage from "../images/career.png";
+import { Link } from "react-router-dom";
+import aspNetImage from "../images/services/aspnet-development.png";
+import fullStackImage from "../images/services/full-stack-development.png";
+import cloudImage from "../images/services/cloud-solutions.png";
+import projectsImage from "../images/services/business-applications.png";
+import aiImage from "../images/services/artificial-intelligence.png";
+import workflowsImage from "../images/services/enterprise-workflows.png";
 
 import {
     Server,
@@ -16,7 +17,7 @@ import {
     Cloud,
     Code2,
     Bot,
-    Rocket
+    Workflow
 } from "lucide-react";
 
 gsap.registerPlugin(ScrollTrigger);
@@ -87,17 +88,16 @@ function Services() {
                 </span>
 
                 <h2>
-                    Empowering Careers &
+                    Software for your business.
                     <br />
-                    Businesses Through Technology
+                    Built around your needs.
                 </h2>
 
                 <p>
-                    From industry-focused training programs to enterprise software
-                    solutions, we help learners and organizations succeed in the
-                    modern digital world.
+                    Web applications, cloud infrastructure and enterprise workflows that support the way your business operates.
                 </p>
 
+                <Link to="/services" className="services-overview-link">Explore business services →</Link>
             </div>
 
             <div className="services-stack">
@@ -212,10 +212,10 @@ function Services() {
                             <Code2 size={36} strokeWidth={2.2} />
                         </div>
 
-                        <h3>Live Projects</h3>
+                        <h3>Business Applications</h3>
 
                         <p>
-                            Gain real-world experience through industry-level projects.
+                            Connect everyday operations with practical portals, dashboards and workflows.
                         </p>
 
                     </div>
@@ -252,12 +252,12 @@ function Services() {
 
                 </div>
 
-                {/* CAREER */}
+                {/* ENTERPRISE WORKFLOWS */}
 
                 <div className="service-card">
 
                     <img
-                        src={careerImage}
+                        src={workflowsImage}
                         alt=""
                         className="card-bg"
                         loading="lazy"
@@ -268,14 +268,14 @@ function Services() {
 
                     <div className="card-content">
 
-                        <div className="service-icon career-icon">
-                            <Rocket size={36} strokeWidth={2.2} />
+                        <div className="service-icon workflow-icon">
+                            <Workflow size={36} strokeWidth={2.2} />
                         </div>
 
-                        <h3>Career Growth</h3>
+                        <h3>Enterprise Workflows</h3>
 
                         <p>
-                            Mentorship, interview preparation and placement assistance.
+                            Dynamics 365 and Power Platform solutions for connected business processes.
                         </p>
 
                     </div>

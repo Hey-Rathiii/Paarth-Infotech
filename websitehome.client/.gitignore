@@ -10,6 +10,8 @@ lerna-debug.log*
 node_modules
 dist
 .deployment-dist
+.pnpm-store/
+content-drafts/
 dist-ssr
 *.local
 

@@ -19,9 +19,7 @@ import {
     Workflow
 } from "lucide-react";
 
-import aspNetImage from "../images/asp.net.png";
-import aiImage from "../images/Ai.png";
-import careerImage from "../images/career.png";
+import { taskflowImage, assistantProjectImage, mentoringImage } from "../content/imagery";
 import CinematicScrollOverlay from "../components/CinematicScrollOverlay";
 import "./ServicesPage.css";
 
@@ -76,7 +74,7 @@ const capabilities = [
         technologies: ["C#", "ASP.NET Core", "SQL Server", "Azure"],
         outcome:
             "A maintainable product foundation your team can understand, operate and extend.",
-        image: aspNetImage,
+        image: taskflowImage,
         imagePosition: "center"
     },
     {
@@ -143,7 +141,7 @@ const capabilities = [
         ],
         outcome:
             "Practical AI that removes friction instead of adding another disconnected tool.",
-        image: aiImage,
+        image: assistantProjectImage,
         imagePosition: "center"
     },
     {
@@ -190,7 +188,7 @@ const capabilities = [
         technologies: [".NET", "Full Stack", "Cloud", "AI & Copilot"],
         outcome:
             "Confident people who can apply what they learned beyond the classroom.",
-        image: careerImage,
+        image: mentoringImage,
         imagePosition: "center 45%"
     }
 ];
@@ -282,16 +280,12 @@ function ServicesPage() {
     const pageRef = useRef(null);
 
     useEffect(() => {
-        const previousTitle = document.title;
-        document.title = "Services | Paarth Infotech";
-
         const refreshFrame = window.requestAnimationFrame(() => {
             ScrollTrigger.refresh();
         });
 
         return () => {
             window.cancelAnimationFrame(refreshFrame);
-            document.title = previousTitle;
         };
     }, []);
 
@@ -552,7 +546,7 @@ function ServicesPage() {
     }, []);
 
     return (
-        <main className="services-page" ref={pageRef}>
+        <main id="main-content" tabIndex={-1} className="services-page" ref={pageRef}>
             <CinematicScrollOverlay pageRef={pageRef} variant="services" />
 
             <section
@@ -862,6 +856,8 @@ function ServicesPage() {
                                                         alt=""
                                                         loading="lazy"
                                                         decoding="async"
+                                                        width="1536"
+                                                        height="1024"
                                                         style={{
                                                             objectPosition:
                                                                 capability.imagePosition
@@ -877,7 +873,9 @@ function ServicesPage() {
                                                 <div className="services-page-visual-label">
                                                     <span>
                                                         {
-                                                            capability.eyebrow
+                                                            capability.image
+                                                                ? capability.id === "enablement" ? "AI-generated mentoring illustration" : "AI-generated concept visual"
+                                                                : capability.eyebrow
                                                         }
                                                     </span>
                                                     <strong>
