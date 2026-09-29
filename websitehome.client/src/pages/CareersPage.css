@@ -20,7 +20,6 @@
 .careers-studio__top { display: flex; justify-content: space-between; gap: 12px; color: #a7c2c9; font-size: 9px; letter-spacing: .16em; }
 .careers-studio__photo { position: relative; margin: 20px -10px 22px; overflow: hidden; border: 1px solid #ffffff18; border-radius: 10px; background: #081321; }
 .careers-studio__photo img { display: block; width: 100%; height: auto; aspect-ratio: 3 / 2; object-fit: cover; }
-.careers-studio__photo figcaption { position: absolute; right: 10px; bottom: 10px; left: 10px; width: fit-content; margin-left: auto; padding: 6px 8px; border: 1px solid #ffffff24; border-radius: 5px; color: #e8f0f5; background: #081321e6; font-size: 9px; line-height: 1.4; }
 .careers-studio__line { display: flex; align-items: center; gap: 24px; padding: 17px 0; border-top: 1px solid #ffffff18; }
 .careers-studio__line span { font: 11px ui-monospace, monospace; color: #8eadb7; }
 .careers-studio__line strong { font-size: 18px; font-weight: 500; }

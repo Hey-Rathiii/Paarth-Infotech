@@ -11,5 +11,6 @@
 .footer-bottom { max-width: 1240px; margin: 65px auto 0; border-top: 1px solid #ffffff16; padding-top: 23px; display: flex; align-items: center; justify-content: space-between; gap: 20px; flex-wrap: wrap; color: #92a1b7; font-size: 12px; }
 .footer-bottom > div { display: flex; gap: 24px; flex-wrap: wrap; }
 .footer-bottom a { color: #abb8ca; text-decoration: none; }
+.footer-imagery-note { max-width: 1240px; margin: 12px auto 0; color: #92a1b7; font-size: 12px; line-height: 1.6; }
 @media (max-width: 1000px) { .footer-top { grid-template-columns: 1fr 1fr; } }
 @media (max-width: 520px) { .footer { padding-top: 50px; } .footer-top { gap: 35px 20px; } .footer-brand { grid-column: 1 / -1; } .footer-links:last-child { grid-column: 1 / -1; } .footer-bottom { margin-top: 40px; } }

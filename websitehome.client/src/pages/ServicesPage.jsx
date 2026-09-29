@@ -872,11 +872,7 @@ function ServicesPage() {
                                                 <div className="services-page-visual-shade" />
                                                 <div className="services-page-visual-label">
                                                     <span>
-                                                        {
-                                                            capability.image
-                                                                ? capability.id === "enablement" ? "AI-generated mentoring illustration" : "AI-generated concept visual"
-                                                                : capability.eyebrow
-                                                        }
+                                                        {capability.eyebrow}
                                                     </span>
                                                     <strong>
                                                         {capability.index}

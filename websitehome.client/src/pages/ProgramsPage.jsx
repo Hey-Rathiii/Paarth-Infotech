@@ -145,7 +145,7 @@ const projects = [
         id: "operations-hub",
         image: taskflowImage,
         imageAlt:
-            "AI-generated task-board application on a laptop, illustrating a business workflow capstone",
+            "Task-board concept on a laptop, illustrating a business workflow capstone",
         number: "01",
         title: "Operations Hub",
         category: "ASP.NET Core capstone",
@@ -159,7 +159,7 @@ const projects = [
         id: "commerce-command-center",
         image: businessWorkflowImage,
         imageAlt:
-            "AI-generated business dashboard with product and order management on a desktop monitor",
+            "Business dashboard concept with product and order management on a desktop monitor",
         number: "02",
         title: "Commerce Command Center",
         category: "Full stack capstone",
@@ -173,7 +173,7 @@ const projects = [
         id: "finance-flow-extension",
         image: businessWorkflowImage,
         imageAlt:
-            "AI-generated operations dashboard with invoice approvals, illustrating a finance workflow concept",
+            "Operations dashboard with invoice approvals, illustrating a finance workflow concept",
         number: "03",
         title: "Finance Flow Extension",
         category: "Dynamics 365 capstone",
@@ -187,7 +187,7 @@ const projects = [
         id: "copilot-service-desk",
         image: assistantProjectImage,
         imageAlt:
-            "AI-generated laptop with a conversational assistant interface, illustrating a support assistant capstone",
+            "Laptop with a conversational assistant concept, illustrating a support assistant capstone",
         number: "04",
         title: "Copilot Service Desk",
         category: "AI & Copilot capstone",
@@ -736,7 +736,7 @@ function ProgramsPage() {
                     <p>
                         These are transparent capstone briefs—realistic products
                         learners can build, explain and extend as their skills
-                        grow. Images are AI-generated concept illustrations.
+                        grow.
                     </p>
                 </div>
 

@@ -17,7 +17,7 @@ export const projects = [
             "A simple task board for a small team: assign an owner, set a due date and move work from To do to In progress to Done. A focused concept for keeping everyday projects organised.",
         image: taskflowImage,
         imageAlt:
-            "AI-generated laptop scene showing the TaskFlow concept with task columns, statuses and due dates",
+            "Laptop scene showing the TaskFlow concept with task columns, statuses and due dates",
         accent: "blue",
         direction: "normal",
         tags: ["React", "ASP.NET Core", "SQL Server"],
@@ -37,7 +37,7 @@ export const projects = [
             "An immersive learning environment where students move from guided foundations to reviewed, portfolio-ready product builds.",
         image: learningProjectImage,
         imageAlt:
-            "AI-generated workspace with a learning dashboard showing courses and project progress",
+            "Workspace illustration with a learning dashboard concept showing courses and project progress",
         accent: "violet",
         direction: "reverse",
         tags: ["React", "Learning Paths", "Mentor Reviews", "Analytics"],
@@ -57,7 +57,7 @@ export const projects = [
             "A cloud command centre that gives delivery teams one calm view of deployments, environment health, incidents and cost signals.",
         image: cloudProjectImage,
         imageAlt:
-            "AI-generated workstation displaying a cloud operations dashboard with deployment and service health panels",
+            "Workstation illustration displaying a cloud operations dashboard concept with deployment and service health panels",
         accent: "cyan",
         direction: "normal",
         tags: ["Azure", "DevOps", "Observability", "Automation"],
@@ -77,7 +77,7 @@ export const projects = [
             "A context-aware learning companion that turns questions into useful next steps while keeping mentors in control of the learning journey.",
         image: assistantProjectImage,
         imageAlt:
-            "AI-generated laptop displaying a learning assistant conversation beside a notebook",
+            "Laptop illustration displaying a learning assistant concept beside a notebook",
         accent: "magenta",
         direction: "reverse",
         tags: ["Azure AI", "Copilot", "RAG", "Responsible AI"],
@@ -97,7 +97,7 @@ export const smallerProjects = [
         title: "Pulse Workflow",
         copy: "A role-based operations hub for approvals, reporting and team visibility.",
         image: taskflowImage,
-        imageAlt: "AI-generated task board visual illustrating a proposed team workflow portal",
+        imageAlt: "Task board visual illustrating a proposed team workflow portal",
         className: "portfolio-more-card--wide"
     },
     {
@@ -106,7 +106,7 @@ export const smallerProjects = [
         title: "Flowline",
         copy: "Connected business processes that remove repetitive hand-offs.",
         image: cloudProjectImage,
-        imageAlt: "AI-generated operations dashboard visual illustrating a proposed automation system",
+        imageAlt: "Operations dashboard visual illustrating a proposed automation system",
         className: ""
     },
     {
@@ -115,7 +115,7 @@ export const smallerProjects = [
         title: "Project Foundry",
         copy: "A guided build space for turning technical learning into proof.",
         image: learningProjectImage,
-        imageAlt: "AI-generated learning dashboard visual illustrating a proposed guided project platform",
+        imageAlt: "Learning dashboard visual illustrating a proposed guided project platform",
         className: ""
     }
 ];

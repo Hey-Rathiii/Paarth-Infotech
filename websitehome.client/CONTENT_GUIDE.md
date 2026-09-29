@@ -163,8 +163,11 @@ The exact prompt set is in `src/images/editorial/PROMPTS.md`; shared image impor
 are in `src/content/imagery.js`.
 
 Project images are concept mockups. Workplace and mentoring photos depict fictional
-people and premises, with visible illustrative captions. Replace them with your
-approved original photos when available; these are not staff profile photographs.
+people and premises. A single footer note identifies illustrative imagery without
+repeating a label over every photo. Replace them with your approved original
+photos when available; these are not staff profile photographs. Once all such
+imagery is replaced, remove the note in `src/components/Footer.jsx` and its style
+in `src/components/Footer.css`.
 
 TaskFlow is a simple proposed task-board project, not a delivered client project
 or a working demo. The concept copy lives in `src/content/projects.js`.

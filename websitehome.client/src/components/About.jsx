@@ -103,7 +103,6 @@ function About() {
                             loading="lazy"
                             decoding="async"
                         />
-                        <figcaption>AI-generated workplace illustration</figcaption>
                     </figure>
 
                     <div className="about-card">

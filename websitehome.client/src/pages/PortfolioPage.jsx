@@ -322,7 +322,7 @@ function PortfolioPage() {
                             <span>A possible product.</span>
                         </h2>
                         <p>
-                            Each concept connects a common challenge to a proposed experience and technology stack. AI-generated concept visuals bring these ideas to life; they are not screenshots of delivered products.
+                            Each concept connects a common challenge to a proposed experience and technology stack, with visuals that show how the idea could take shape.
                         </p>
                         <span className="portfolio-intro__note">
                             Concept projects · No client delivery or measured results are claimed.

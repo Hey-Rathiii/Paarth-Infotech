@@ -16,6 +16,7 @@ export default function Footer() {
                 <div className="footer-links"><h3>Let’s talk</h3><a href={`mailto:${company.email}`}>{company.email}</a>{company.phone && <a href={`tel:${company.phone.replace(/[^+\d]/g, "")}`}>{company.phone}</a>}{company.address && <p>{company.address}</p>}<Link to="/#contact">Make an inquiry <ArrowUpRight size={15} aria-hidden="true" /></Link><Link to="/careers/apply">Introduce yourself</Link>{company.identityNote && <p>{company.identityNote}</p>}</div>
             </div>
             <div className="footer-bottom"><p>© {new Date().getFullYear()} {company.legalName || company.name}.{company.registration && ` ${company.registration}`}</p><div><Link to="/privacy">Privacy</Link><Link to="/terms">Working with us</Link><Link to="/terms#training">Fees & cancellation</Link></div></div>
+            <p className="footer-imagery-note">Some imagery is illustrative.</p>
         </footer>
     );
 }

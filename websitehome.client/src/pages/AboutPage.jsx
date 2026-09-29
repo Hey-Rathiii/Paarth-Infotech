@@ -191,8 +191,8 @@ function AboutPage() {
                         <p>That combination keeps our teaching connected to current delivery work—and keeps our delivery process curious, explainable and human.</p>
                     </div>
                     <div className="about-page__collage" aria-label="Illustrations of learning and product development">
-                        <figure className="about-page__collage-main"><img src={mentoringImage} alt="Two colleagues discussing a project at a laptop" width="1536" height="1024" loading="lazy" decoding="async" /><figcaption>AI-generated mentoring illustration</figcaption></figure>
-                        <figure className="about-page__collage-small"><img src={taskflowImage} alt="A laptop displaying a simple task-board project concept" width="1536" height="1024" loading="lazy" decoding="async" /><figcaption>AI-generated project concept</figcaption></figure>
+                        <figure className="about-page__collage-main"><img src={mentoringImage} alt="Two colleagues discussing a project at a laptop" width="1536" height="1024" loading="lazy" decoding="async" /></figure>
+                        <figure className="about-page__collage-small"><img src={taskflowImage} alt="A laptop displaying a simple task-board project concept" width="1536" height="1024" loading="lazy" decoding="async" /></figure>
                         <span className="about-page__collage-note">Learning ↔ Delivery</span>
                     </div>
                 </div>
@@ -210,7 +210,7 @@ function AboutPage() {
             </section>
 
             <section className="about-page__people">
-                <figure className="about-page__people-media"><img src={workplaceImage} alt="Colleagues sharing ideas and working together at computers" width="1536" height="1024" loading="lazy" decoding="async" /><figcaption>AI-generated workplace illustration</figcaption></figure>
+                <figure className="about-page__people-media"><img src={workplaceImage} alt="Colleagues sharing ideas and working together at computers" width="1536" height="1024" loading="lazy" decoding="async" /></figure>
                 <div className="about-page__people-copy">
                     <span className="about-page__section-label">People before platforms</span>
                     <UsersRound aria-hidden="true" />
