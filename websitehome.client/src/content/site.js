@@ -2,7 +2,7 @@
 // Publish people, reviews and vacancies only after checking the facts and consent.
 export const company = {
     name: "Paarth Infotech",
-    email: "info@phsolutions.in", // Existing address; confirm that this inbox is monitored.
+    email: "Hr@paarthinfotech.com",
     careersEmail: "", // Falls back to company.email.
     phone: "",
     address: "",

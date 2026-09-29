@@ -8,9 +8,8 @@ entry does not prevent its data from being included in the public browser bundle
 
 ## Contact and business identity
 
-In `company`, confirm `email` first. It currently uses the address that was already
-on the website: `info@phsolutions.in`. Its delivery and ownership have not been
-verified. Both forms use this address; `careersEmail` can override it for careers.
+In `company`, `email` uses the supplied contact address: `Hr@paarthinfotech.com`.
+Both forms use this address; `careersEmail` can override it for careers.
 
 Add a real `phone`, full `address`, and optionally `mapUrl` (a normal maps link).
 Use `legalName`, `registration`, and `identityNote` to explain the company’s legal
